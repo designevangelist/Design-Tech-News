@@ -1,7 +1,10 @@
+# Updated 2026-03-12
 backend:
   name: github
   repo: designevangelist/Design-Tech-News
   branch: main
+  auth_type: pkce
+  app_id: Ov23liaKM6yHZKhBnYxl
 
 media_folder: public/images
 public_folder: /images
