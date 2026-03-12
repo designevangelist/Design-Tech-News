@@ -1,0 +1,48 @@
+backend:
+  name: github
+  repo: designevangelist/Design-Tech-News
+  branch: main
+
+media_folder: public/images
+public_folder: /images
+
+collections:
+  - name: opportunities
+    label: Opportunities
+    folder: src/content/opportunities
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Type, name: type, widget: select, options: [Scholarship, Fellowship, Internship, Accelerator, Competition] }
+      - { label: Location, name: location, widget: string }
+      - { label: Deadline, name: deadline, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: jobs
+    label: Jobs
+    folder: src/content/jobs
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Company, name: company, widget: string }
+      - { label: Location, name: location, widget: string }
+      - { label: Job Type, name: jobType, widget: select, options: [Full-time, Part-time, Contract, Internship] }
+      - { label: Salary, name: salary, widget: string, required: false }
+      - { label: Apply Link, name: link, widget: string, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: news
+    label: News
+    folder: src/content/news
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Category, name: category, widget: select, options: [AI Design, Africa Tech, Tools, Startups, Funding] }
+      - { label: Date, name: date, widget: string }
+      - { label: Excerpt, name: excerpt, widget: text }
+      - { label: Icon, name: icon, widget: string, required: false }
+      - { label: Body, name: body, widget: markdown }
