@@ -6,6 +6,24 @@
     <title>DesignTechNews Admin</title>
   </head>
   <body>
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      CMS.init({
+        config: {
+          backend: {
+            name: 'github',
+            repo: 'designevangelist/Design-Tech-News',
+            branch: 'main',
+            base_url: 'https://designtechnews.vercel.app',
+            auth_endpoint: 'api/auth'
+          },
+          media_folder: 'public/images',
+          public_folder: '/images',
+        }
+      });
+    </script>
   </body>
 </html>
