@@ -1,5 +1,6 @@
 ---
-
+import { getCollection } from "astro:content";
+const news = await getCollection("news");
 ---
 
 <!DOCTYPE html>
@@ -17,28 +18,28 @@
 
 <nav class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="mobileClose">✕</button>
-  <a href="index.html">Home</a>
-  <a href="opportunities.html">Opportunities</a>
-  <a href="jobs.html">Jobs</a>
-  <a href="news.html">News</a>
+  <a href="/">Home</a>
+  <a href="/opportunities">Opportunities</a>
+  <a href="/jobs">Jobs</a>
+  <a href="/news">News</a>
 </nav>
 
 <header>
   <div class="container">
     <nav>
-      <a href="index.html" class="logo">
+      <a href="/" class="logo">
         <div class="logo-icon">DT</div>
         <span class="logo-text">Design<span>Tech</span>News</span>
       </a>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="opportunities.html">Opportunities</a></li>
-        <li><a href="jobs.html">Jobs</a></li>
-        <li><a href="news.html" class="active">News</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/opportunities">Opportunities</a></li>
+        <li><a href="/jobs">Jobs</a></li>
+        <li><a href="/news" class="active">News</a></li>
       </ul>
       <div class="nav-right">
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
-        <a href="index.html#newsletter" class="btn-subscribe">Subscribe</a>
+        <a href="/#newsletter" class="btn-subscribe">Subscribe</a>
         <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
       </div>
     </nav>
@@ -69,144 +70,26 @@
       <button class="filter-btn" data-filter="startups">Startups</button>
     </div>
 
-    <div class="card-grid">
+   <div class="card-grid">
+  {news.map((article) => (
+    <article class="news-card" data-category={article.data.category.toLowerCase()}>
+      <div class="news-img news-img-1">
+        <span class="news-img-icon">{article.data.icon ?? "📰"}</span>
+        <span class="news-category">{article.data.category}</span>
+      </div>
+      <div class="news-body">
+        <h3>{article.data.title}</h3>
+        <p>{article.data.excerpt}</p>
+        <div class="news-meta">
+          <span class="date">{article.data.date}</span>
+          <a href={`/news/${article.id}`} class="read-more">Read more →</a>
+        </div>
+      </div>
+    </article>
+  ))}
+</div>
 
-      <article class="news-card" data-category="ai">
-        <div class="news-img news-img-1">
-          <span class="news-img-icon">🤖</span>
-          <span class="news-category">AI Design</span>
-        </div>
-        <div class="news-body">
-          <h3>Figma AI Launches Auto-Layout Assistant for Complex Design Systems</h3>
-          <p>Figma's new AI features automate tedious design-system tasks, generating component variants and auto-layout rules in seconds.</p>
-          <div class="news-meta">
-            <span class="date">Jun 18, 2025</span>
-            <a href="post-template.html" class="read-more">Read more →</a>
-          </div>
-        </div>
-      </article>
 
-      <article class="news-card" data-category="africa">
-        <div class="news-img news-img-2">
-          <span class="news-img-icon">🌍</span>
-          <span class="news-category">Africa Tech</span>
-        </div>
-        <div class="news-body">
-          <h3>African Startup Ecosystem Raises $2.4B in Q1 2025 — A 40% YoY Surge</h3>
-          <p>Fintech continues to lead, but edtech and health-tech are gaining ground fast across East and West Africa.</p>
-          <div class="news-meta">
-            <span class="date">Jun 12, 2025</span>
-            <a href="post-template.html" class="read-more">Read more →</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="news-card" data-category="tools">
-        <div class="news-img news-img-3">
-          <span class="news-img-icon">⚡</span>
-          <span class="news-category">Tools</span>
-        </div>
-        <div class="news-body">
-          <h3>Vercel Introduces v0 AI: Generate Full-Stack Apps from Plain Text</h3>
-          <p>Vercel's newest AI builder lets developers scaffold production-ready Next.js apps in minutes — no boilerplate required.</p>
-          <div class="news-meta">
-            <span class="date">Jun 8, 2025</span>
-            <a href="post-template.html" class="read-more">Read more →</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="news-card" data-category="startups">
-        <div class="news-img" style="background:linear-gradient(135deg,#0D2137 0%,#1E3A5F 100%)">
-          <span class="news-img-icon">💰</span>
-          <span class="news-category">Funding</span>
-        </div>
-        <div class="news-body">
-          <h3>Wave Raises $137M Series B to Expand Mobile Money Across Francophone Africa</h3>
-          <p>The Senegal-based fintech is expanding to five new markets after its latest round led by Stripe and Sequoia.</p>
-          <div class="news-meta">
-            <span class="date">Jun 5, 2025</span>
-            <a href="post-template.html" class="read-more">Read more →</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="news-card" data-category="ai">
-        <div class="news-img" style="background:linear-gradient(135deg,#1E0A3C 0%,#3B0764 100%)">
-          <span class="news-img-icon">🎨</span>
-          <span class="news-category">AI Design</span>
-        </div>
-        <div class="news-body">
-          <h3>Adobe Firefly 3 Can Now Edit Photoshop Files Using Natural Language</h3>
-          <p>Adobe's latest Firefly model understands complex design context and can make targeted edits across layered PSD files.</p>
-          <div class="news-meta">
-            <span class="date">Jun 2, 2025</span>
-            <a href="post-template.html" class="read-more">Read more →</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="news-card" data-category="africa">
-        <div class="news-img" style="background:linear-gradient(135deg,#064E3B 0%,#0D2137 100%)">
-          <span class="news-img-icon">🏆</span>
-          <span class="news-category">Africa Tech</span>
-        </div>
-        <div class="news-body">
-          <h3>Nigeria's Moniepoint Becomes Africa's Newest Unicorn with $1B Valuation</h3>
-          <p>The Lagos-based business banking startup has processed over $182B in transactions and now serves 10M+ businesses.</p>
-          <div class="news-meta">
-            <span class="date">May 28, 2025</span>
-            <a href="post-template.html" class="read-more">Read more →</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="news-card" data-category="tools">
-        <div class="news-img" style="background:linear-gradient(135deg,#0F2256 0%,#0F172A 100%)">
-          <span class="news-img-icon">🛠️</span>
-          <span class="news-category">Tools</span>
-        </div>
-        <div class="news-body">
-          <h3>GitHub Copilot Now Integrates Directly Into Figma for Design-to-Code Handoffs</h3>
-          <p>Microsoft's new integration bridges the gap between design and engineering by generating production-ready React components from Figma frames.</p>
-          <div class="news-meta">
-            <span class="date">May 22, 2025</span>
-            <a href="post-template.html" class="read-more">Read more →</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="news-card" data-category="startups">
-        <div class="news-img" style="background:linear-gradient(135deg,#1C1218 0%,#350D36 100%)">
-          <span class="news-img-icon">🚀</span>
-          <span class="news-category">Startups</span>
-        </div>
-        <div class="news-body">
-          <h3>Linear Hits $1B ARR and Announces Major Enterprise Expansion</h3>
-          <p>The beloved project management tool for engineers crosses a key revenue milestone and launches enterprise features targeting Fortune 500 companies.</p>
-          <div class="news-meta">
-            <span class="date">May 18, 2025</span>
-            <a href="post-template.html" class="read-more">Read more →</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="news-card" data-category="ai">
-        <div class="news-img" style="background:linear-gradient(135deg,#052E16 0%,#0F172A 100%)">
-          <span class="news-img-icon">🧠</span>
-          <span class="news-category">AI</span>
-        </div>
-        <div class="news-body">
-          <h3>Anthropic's Claude 4 Outperforms GPT-4o on Design and Code Generation Benchmarks</h3>
-          <p>New evaluation results show Claude's latest model leads on complex UI generation tasks and multi-step code reasoning.</p>
-          <div class="news-meta">
-            <span class="date">May 14, 2025</span>
-            <a href="post-template.html" class="read-more">Read more →</a>
-          </div>
-        </div>
-      </article>
-
-    </div>
   </div>
 </section>
 </main>
@@ -230,18 +113,18 @@
       <div class="footer-col">
         <h5>Explore</h5>
         <ul class="footer-links">
-          <li><a href="opportunities.html">Opportunities</a></li>
-          <li><a href="jobs.html">Tech Jobs</a></li>
-          <li><a href="news.html">News</a></li>
+          <li><a href="/opportunities">Opportunities</a></li>
+          <li><a href="/jobs">Tech Jobs</a></li>
+          <li><a href="/news">News</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h5>Topics</h5>
         <ul class="footer-links">
-          <li><a href="news.html">AI Design</a></li>
-          <li><a href="news.html">Africa Tech</a></li>
-          <li><a href="news.html">Design Tools</a></li>
-          <li><a href="news.html">Startup News</a></li>
+          <li><a href="/news">AI Design</a></li>
+          <li><a href="/news">Africa Tech</a></li>
+          <li><a href="/news">Design Tools</a></li>
+          <li><a href="/news">Startup News</a></li>
         </ul>
       </div>
       <div class="footer-col">

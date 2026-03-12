@@ -1,5 +1,6 @@
 ---
-
+import { getCollection } from "astro:content";
+const jobs = await getCollection("jobs");
 ---
 
 <!DOCTYPE html>
@@ -17,28 +18,28 @@
 
 <nav class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="mobileClose">✕</button>
-  <a href="index.html">Home</a>
-  <a href="opportunities.html">Opportunities</a>
-  <a href="jobs.html">Jobs</a>
-  <a href="news.html">News</a>
+  <a href="/">Home</a>
+  <a href="/opportunities">Opportunities</a>
+  <a href="/jobs">Jobs</a>
+  <a href="/news">News</a>
 </nav>
 
 <header>
   <div class="container">
     <nav>
-      <a href="index.html" class="logo">
+      <a href="/" class="logo">
         <div class="logo-icon">DT</div>
         <span class="logo-text">Design<span>Tech</span>News</span>
       </a>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="opportunities.html">Opportunities</a></li>
-        <li><a href="jobs.html" class="active">Jobs</a></li>
-        <li><a href="news.html">News</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/opportunities">Opportunities</a></li>
+        <li><a href="/jobs" class="active">Jobs</a></li>
+        <li><a href="/news">News</a></li>
       </ul>
       <div class="nav-right">
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
-        <a href="index.html#newsletter" class="btn-subscribe">Subscribe</a>
+        <a href="/#newsletter" class="btn-subscribe">Subscribe</a>
         <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
       </div>
     </nav>
@@ -70,177 +71,30 @@
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 14px;">
-
-      <article class="job-card" data-category="design">
-        <div class="job-left">
-          <div class="company-logo purple">SY</div>
-          <div class="job-info">
-            <h4>Senior Product Designer</h4>
-            <p class="company">Shopify · San Francisco / Remote</p>
-            <div class="job-tags">
-              <span class="card-tag tag-remote" style="margin:0">Remote</span>
-              <span class="card-tag tag-fulltime" style="margin:0">Full-time</span>
-              <span class="card-tag tag-news" style="margin:0">Design</span>
-            </div>
+  {jobs.map((job) => (
+    <article class="job-card" data-category={job.data.jobType.toLowerCase()}>
+      <div class="job-left">
+        <div class="company-logo">
+          {job.data.company.slice(0, 2).toUpperCase()}
+        </div>
+        <div class="job-info">
+          <h4>{job.data.title}</h4>
+          <p class="company">{job.data.company} · {job.data.location}</p>
+          <div class="job-tags">
+            <span class="card-tag tag-remote" style="margin:0">{job.data.location.toLowerCase().includes("remote") ? "Remote" : "On-site"}</span>
+            <span class="card-tag tag-fulltime" style="margin:0">{job.data.jobType}</span>
           </div>
         </div>
-        <div class="job-actions">
-          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">$120K–$160K</span>
-          <a href="post-template.html" class="btn-card">Apply →</a>
-        </div>
-      </article>
-
-      <article class="job-card" data-category="engineering">
-        <div class="job-left">
-          <div class="company-logo green">FW</div>
-          <div class="job-info">
-            <h4>Frontend Developer (React/TypeScript)</h4>
-            <p class="company">Flutterwave · Lagos / Remote</p>
-            <div class="job-tags">
-              <span class="card-tag tag-remote" style="margin:0">Remote</span>
-              <span class="card-tag tag-fulltime" style="margin:0">Full-time</span>
-              <span class="card-tag tag-news" style="margin:0">Engineering</span>
-            </div>
-          </div>
-        </div>
-        <div class="job-actions">
-          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">$60K–$90K</span>
-          <a href="post-template.html" class="btn-card">Apply →</a>
-        </div>
-      </article>
-
-      <article class="job-card" data-category="design">
-        <div class="job-left">
-          <div class="company-logo orange">NT</div>
-          <div class="job-info">
-            <h4>UI/UX Designer – Growth Team</h4>
-            <p class="company">Notion · Remote</p>
-            <div class="job-tags">
-              <span class="card-tag tag-remote" style="margin:0">Remote</span>
-              <span class="card-tag tag-parttime" style="margin:0">Contract</span>
-              <span class="card-tag tag-news" style="margin:0">Design</span>
-            </div>
-          </div>
-        </div>
-        <div class="job-actions">
-          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">$80–$110/hr</span>
-          <a href="post-template.html" class="btn-card">Apply →</a>
-        </div>
-      </article>
-
-      <article class="job-card" data-category="engineering">
-        <div class="job-left">
-          <div class="company-logo" style="background:linear-gradient(135deg,#FF6B6B,#FF8E53)">AV</div>
-          <div class="job-info">
-            <h4>Backend Engineer (Python/Django)</h4>
-            <p class="company">Andela · Remote – Africa</p>
-            <div class="job-tags">
-              <span class="card-tag tag-remote" style="margin:0">Remote</span>
-              <span class="card-tag tag-fulltime" style="margin:0">Full-time</span>
-              <span class="card-tag tag-news" style="margin:0">Engineering</span>
-            </div>
-          </div>
-        </div>
-        <div class="job-actions">
-          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">$45K–$70K</span>
-          <a href="post-template.html" class="btn-card">Apply →</a>
-        </div>
-      </article>
-
-      <article class="job-card" data-category="product">
-        <div class="job-left">
-          <div class="company-logo" style="background:linear-gradient(135deg,#06B6D4,#3B82F6)">LN</div>
-          <div class="job-info">
-            <h4>Product Manager – Developer Tools</h4>
-            <p class="company">Linear · Berlin / Remote</p>
-            <div class="job-tags">
-              <span class="card-tag tag-remote" style="margin:0">Hybrid</span>
-              <span class="card-tag tag-fulltime" style="margin:0">Full-time</span>
-              <span class="card-tag tag-news" style="margin:0">Product</span>
-            </div>
-          </div>
-        </div>
-        <div class="job-actions">
-          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">€90K–€130K</span>
-          <a href="post-template.html" class="btn-card">Apply →</a>
-        </div>
-      </article>
-
-      <article class="job-card" data-category="data">
-        <div class="job-left">
-          <div class="company-logo" style="background:linear-gradient(135deg,#8B5CF6,#EC4899)">ML</div>
-          <div class="job-info">
-            <h4>ML Engineer – Recommendations</h4>
-            <p class="company">Spotify · Stockholm / Remote</p>
-            <div class="job-tags">
-              <span class="card-tag tag-remote" style="margin:0">Remote</span>
-              <span class="card-tag tag-fulltime" style="margin:0">Full-time</span>
-              <span class="card-tag tag-news" style="margin:0">Data &amp; AI</span>
-            </div>
-          </div>
-        </div>
-        <div class="job-actions">
-          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">$130K–$180K</span>
-          <a href="post-template.html" class="btn-card">Apply →</a>
-        </div>
-      </article>
-
-      <article class="job-card" data-category="design">
-        <div class="job-left">
-          <div class="company-logo" style="background:linear-gradient(135deg,#10B981,#0D9488)">FG</div>
-          <div class="job-info">
-            <h4>Brand Designer</h4>
-            <p class="company">Figma · San Francisco</p>
-            <div class="job-tags">
-              <span class="card-tag tag-fulltime" style="margin:0">Full-time</span>
-              <span class="card-tag tag-news" style="margin:0">Design</span>
-            </div>
-          </div>
-        </div>
-        <div class="job-actions">
-          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">$110K–$145K</span>
-          <a href="post-template.html" class="btn-card">Apply →</a>
-        </div>
-      </article>
-
-      <article class="job-card" data-category="engineering">
-        <div class="job-left">
-          <div class="company-logo" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">PY</div>
-          <div class="job-info">
-            <h4>iOS Developer (Swift)</h4>
-            <p class="company">Paystack · Lagos, Nigeria</p>
-            <div class="job-tags">
-              <span class="card-tag tag-fulltime" style="margin:0">Full-time</span>
-              <span class="card-tag tag-news" style="margin:0">Engineering</span>
-            </div>
-          </div>
-        </div>
-        <div class="job-actions">
-          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">$40K–$65K</span>
-          <a href="post-template.html" class="btn-card">Apply →</a>
-        </div>
-      </article>
-
-      <article class="job-card" data-category="product">
-        <div class="job-left">
-          <div class="company-logo" style="background:linear-gradient(135deg,#2563EB,#7C3AED)">VR</div>
-          <div class="job-info">
-            <h4>Product Designer – Mobile App</h4>
-            <p class="company">Vercel · Remote</p>
-            <div class="job-tags">
-              <span class="card-tag tag-remote" style="margin:0">Remote</span>
-              <span class="card-tag tag-fulltime" style="margin:0">Full-time</span>
-              <span class="card-tag tag-news" style="margin:0">Design</span>
-            </div>
-          </div>
-        </div>
-        <div class="job-actions">
-          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">$100K–$140K</span>
-          <a href="post-template.html" class="btn-card">Apply →</a>
-        </div>
-      </article>
-
-    </div>
+      </div>
+      <div class="job-actions">
+        {job.data.salary && (
+          <span style="font-size:13px;color:var(--text-muted);font-weight:500;">{job.data.salary}</span>
+        )}
+        <a href={`/jobs/${job.id}`} class="btn-card">Apply →</a>
+      </div>
+    </article>
+  ))}
+</div>
   </div>
 </section>
 
@@ -276,18 +130,18 @@
       <div class="footer-col">
         <h5>Explore</h5>
         <ul class="footer-links">
-          <li><a href="opportunities.html">Opportunities</a></li>
-          <li><a href="jobs.html">Tech Jobs</a></li>
-          <li><a href="news.html">News</a></li>
+          <li><a href="/opportunities">Opportunities</a></li>
+          <li><a href="/jobs">Tech Jobs</a></li>
+          <li><a href="/news">News</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h5>Job Types</h5>
         <ul class="footer-links">
-          <li><a href="jobs.html">Design Jobs</a></li>
-          <li><a href="jobs.html">Engineering Jobs</a></li>
-          <li><a href="jobs.html">Product Jobs</a></li>
-          <li><a href="jobs.html">Remote Jobs</a></li>
+          <li><a href="/jobs">Design Jobs</a></li>
+          <li><a href="/jobs">Engineering Jobs</a></li>
+          <li><a href="/jobs">Product Jobs</a></li>
+          <li><a href="/jobs">Remote Jobs</a></li>
         </ul>
       </div>
       <div class="footer-col">
