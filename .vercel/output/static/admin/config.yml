@@ -1,9 +1,10 @@
+# Updated 2026-03-12
 backend:
   name: github
   repo: designevangelist/Design-Tech-News
   branch: main
-  base_url: https://designtechnews.vercel.app
-  auth_endpoint: api/auth
+  auth_type: pkce
+  app_id: Ov23liaKM6yHZKhBnYxl
 
 media_folder: public/images
 public_folder: /images
@@ -48,3 +49,4 @@ collections:
       - { label: Excerpt, name: excerpt, widget: text }
       - { label: Icon, name: icon, widget: string, required: false }
       - { label: Body, name: body, widget: markdown }
+      - { label: Image, name: image, widget: image, required: false }

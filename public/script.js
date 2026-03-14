@@ -57,22 +57,36 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     group.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const filter = btn.dataset.filter;
-    filterCards(filter, group);
+
+    const container = group.nextElementSibling;
+    if (!container) return;
+    const cards = container.querySelectorAll('article');
+
+    const keywords = {
+      // Jobs
+      design: ['design', 'designer', 'ui', 'ux', 'brand', 'visual'],
+      engineering: ['engineer', 'developer', 'frontend', 'backend', 'ios', 'android', 'software', 'fullstack'],
+      product: ['product manager', 'product owner', 'pm '],
+      data: ['data', 'ml', 'machine learning', 'ai ', 'analyst'],
+      // News
+      'ai design': ['figma', 'adobe', 'ai', 'firefly', 'copilot', 'claude', 'gpt', 'design tool'],
+      'africa tech': ['africa', 'african', 'nigeria', 'kenya', 'ghana', 'lagos', 'nairobi', 'moniepoint', 'wave', 'flutterwave'],
+      'tools': ['vercel', 'github', 'linear', 'tool', 'launch', 'release', 'update', 'introduces', 'integrat'],
+      'startups': ['startup', 'arr', 'saas', 'enterprise', 'unicorn', 'raises', 'series', 'funding'],
+      'funding': ['raises', 'funding', 'million', 'series', 'investment', 'round'],
+    };
+
+    cards.forEach(card => {
+      if (filter === 'all') {
+        card.style.display = '';
+        return;
+      }
+      const title = card.querySelector('h3, h4')?.textContent.toLowerCase() || '';
+      const matches = keywords[filter]?.some(kw => title.includes(kw));
+      card.style.display = matches ? '' : 'none';
+    });
   });
 });
-
-function filterCards(filter, bar) {
-  const container = bar.nextElementSibling;
-  if (!container) return;
-  const cards = container.querySelectorAll('[data-category]');
-  cards.forEach(card => {
-    if (filter === 'all' || card.dataset.category === filter) {
-      card.style.display = '';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-}
 
 // ===== SEARCH =====
 const searchInput = document.getElementById('searchInput');

@@ -1,8 +1,10 @@
 ---
-title: "Figma AI Launches Auto-Layout Assistant"
+title: "Figma AI Launches Auto-Layout Assistant for Complex Design Systems"
 category: "AI Design"
-date: "2025-06-18"
-excerpt: "Figma's new AI features automate tedious design-system tasks."
+date: "Jun 18, 2025"
+excerpt: "Figma's new AI features automate tedious design-system tasks, generating component variants and auto-layout rules in seconds."
+icon: "🤖"
+image: "/images/figma-ai.png"
 ---
 
 Figma continues expanding its AI-powered design platform with tools that allow designers and developers to collaborate more closely.

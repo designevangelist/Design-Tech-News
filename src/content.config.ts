@@ -32,6 +32,7 @@ const news = defineCollection({
     date: z.string(),
     excerpt: z.string(),
     icon: z.string().optional(),
+    image: z.string().optional(),
   }),
 });
 
