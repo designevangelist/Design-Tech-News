@@ -62,12 +62,14 @@
     }
 
     .about-section p {
-      font-size: 1.05rem;
-      color: var(--text-mid);
-      line-height: 1.85;
-      max-width: 680px;
-      margin-bottom: 16px;
-    }
+  font-size: 1.05rem;
+  color: var(--text-mid);
+  line-height: 1.85;
+  max-width: 680px;
+  margin-bottom: 16px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
     .what-we-do-grid {
       display: grid;
@@ -143,6 +145,10 @@
       letter-spacing: -0.5px;
       margin-bottom: 6px;
     }
+
+@media (max-width: 768px) {
+  .about-hero-img { display: none; }
+}
 
     .founder-content .founder-title {
       font-size: 14px;
@@ -532,19 +538,26 @@
 <!-- ABOUT HERO -->
 <section class="about-hero">
   <div class="container">
-    <p class="section-label">👋 About Us</p>
-    <h1>Built for creators who deserve better access to opportunity</h1>
-    <p>DesignTechNews is a curated platform that helps designers, developers, and digital creators discover opportunities, jobs, and industry news across Africa and the global tech ecosystem.</p>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:48px;">
+      <div style="flex:1;">
+        <p class="section-label">👋 About Us</p>
+        <h1>Built for techies who deserve better access to opportunity</h1>
+        <p>DesignTechNews is a curated platform that helps designers, developers, and digital creators discover opportunities, jobs, and industry news across Africa and the global tech ecosystem.</p>
+      </div>
+      <div style="flex-shrink:0;width:420px;" class="about-hero-img">
+        <img src="/images/jobs.png" alt="Opportunities" style="width:100%;height:auto;border-radius:16px;" />
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- MISSION -->
-<section class="about-section bg-subtle">
+<section class="about-section bg-subtle" style="text-align:center;">
   <div class="container">
-    <p class="section-label">🎯 Our Mission</p>
-    <h2>Making opportunities accessible</h2>
-    <p>The goal is simple — make it easier for talented people to find fellowships, internships, accelerators, tech jobs, and important updates shaping the future of design and technology.</p>
-    <p>Too many brilliant designers and developers across Africa and beyond never reach their full potential — not because of lack of talent, but because they simply don't know what's available to them. DesignTechNews exists to close that gap.</p>
+    <p class="section-label" style="justify-content:center;">🎯 Our Mission</p>
+    <h2 style="margin:0 auto 20px;">Making opportunities accessible</h2>
+    <p style="margin:0 auto 16px;font-size:1.15rem;">The goal is simple — make it easier for talented people to find fellowships, internships, accelerators, tech jobs, and important updates shaping the future of design and technology.</p>
+    <p style="margin:0 auto;font-size:1.15rem;">Too many brilliant designers and developers across Africa and beyond never reach their full potential — not because of lack of talent, but because they simply don't know what's available to them. DesignTechNews exists to close that gap.</p>
   </div>
 </section>
 
@@ -582,10 +595,10 @@
 <section class="founder-section">
   <div class="container">
     <div class="founder-inner">
-      <div class="founder-avatar">LP</div>
-      <div class="founder-content">
-        <p class="section-label">👤 The Founder</p>
-        <h2>Lebari Pado</h2>
+        <div style="width:270px;height:405px;border-radius:16px;overflow:hidden;flex-shrink:0;">                    <img src="/images/founder.png" alt="Lebari Pado" style="width:100%;height:100%;object-fit:cover;" />
+        </div>     
+        <div class="founder-content">
+            <h2>Lebari Pado</h2>
         <p class="founder-title">
           <span>Founder & Curator, DesignTechNews</span>
         </p>
@@ -757,7 +770,7 @@
           <li><a href="/about">About Us</a></li>
           <li><a href="/about#contact">Contact</a></li>
           <li><a href="/about#advertise">Advertise</a></li>
-          <li><a href="mailto:designevangelist1@gmail.com">Submit Opportunity</a></li>
+          <li><a href="/about?submit=true">Submit Opportunity</a></li>
         </ul>
       </div>
     </div>
@@ -789,6 +802,11 @@
   submitPopup?.addEventListener('click', (e) => {
     if (e.target === submitPopup) submitPopup.classList.remove('open');
   });
+
+// Auto-open popup if ?submit=true in URL
+if (window.location.search.includes('submit=true')) {
+  submitPopup.classList.add('open');
+}
 
   // Submit opportunity form via Formspree
   const submitOppForm = document.getElementById('submit-opp-form');

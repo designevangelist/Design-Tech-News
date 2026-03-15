@@ -1373,3 +1373,94 @@ footer {
   .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
   .newsletter-section { padding: 40px 24px; }
 }
+
+/* ===== POST CONTENT GLOBAL FIX ===== */
+.post-content {
+  max-width: 720px;
+}
+
+.post-content h2 {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  margin: 36px 0 12px !important;
+  padding-top: 24px !important;
+  border-top: 1px solid var(--border) !important;
+}
+
+.post-content h2:first-child {
+  border-top: none !important;
+  padding-top: 0 !important;
+  margin-top: 8px !important;
+}
+
+.post-content p {
+  color: var(--text-mid) !important;
+  line-height: 1.85 !important;
+  font-size: 1rem !important;
+  margin-bottom: 16px !important;
+}
+
+.post-content ul {
+  list-style: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin: 0 0 24px 0 !important;
+  padding: 0 !important;
+}
+
+.post-content ul li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  font-size: 1rem !important;
+  color: var(--text-mid) !important;
+  line-height: 1.65 !important;
+  padding-left: 0 !important;
+}
+
+.post-content ul li::before {
+  content: '→' !important;
+  color: var(--blue) !important;
+  font-weight: 700 !important;
+  flex-shrink: 0 !important;
+  margin-top: 2px !important;
+  font-size: 13px !important;
+}
+
+.post-content ul li::marker {
+  display: none !important;
+  content: '' !important;
+}
+
+
+/* Breadcrumb Fixes */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 !important;
+  padding: 24px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.breadcrumb a:hover { color: var(--blue); }
+
+.breadcrumb .sep {
+  color: var(--border-dark) !important;
+  font-size: 14px !important;
+  padding: 0 4px !important;
+}
+
+.breadcrumb a {
+  color: var(--text-muted) !important;
+  transition: color 0.2s !important;
+  padding: 2px 4px !important;
+}
+
+.breadcrumb .current {
+  color: var(--text) !important;
+  padding: 2px 4px !important;
+  font-weight: 500 !important;
+}
