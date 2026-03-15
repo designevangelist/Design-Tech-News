@@ -8,4 +8,4 @@ icon: "🚀"
 
 Shardul Shah of Index Ventures walks us through Google's biggest acquisition ever.
 
-[Read full article](https://techcrunch.com/2026/03/15/wiz-investor-unpacks-googles-32b-acquisition/)
+[Read the full article](https://techcrunch.com/2026/03/15/wiz-investor-unpacks-googles-32b-acquisition/)
