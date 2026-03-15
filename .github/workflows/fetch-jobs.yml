@@ -1,0 +1,30 @@
+name: Fetch Jobs from Remotive
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Runs every day at 6am UTC
+  workflow_dispatch:  # Allows manual trigger from GitHub
+
+jobs:
+  fetch-jobs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run fetch jobs script
+        run: node scripts/fetch-jobs.mjs
+
+      - name: Commit and push new jobs
+        run: |
+          git config --global user.name "DesignTechNews Bot"
+          git config --global user.email "bot@designtechnews.com"
+          git add src/content/jobs/
+          git diff --staged --quiet || git commit -m "🤖 Auto-fetch: new jobs from Remotive API"
+          git push
