@@ -88,19 +88,44 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
-// ===== SEARCH =====
+// ===== ENHANCED SEARCH =====
 const searchInput = document.getElementById('searchInput');
 if (searchInput) {
+  let debounceTimer;
+
   searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    const cards = document.querySelectorAll('.card, .job-card, .news-card');
-    cards.forEach(card => {
-      const text = card.textContent.toLowerCase();
-      card.style.display = text.includes(query) ? '' : 'none';
-    });
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const query = e.target.value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.card, .job-card-v, .news-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const matches = query === '' || text.includes(query);
+        card.style.display = matches ? '' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      // Show no results message
+      let noResults = document.getElementById('no-results');
+      if (!noResults) {
+        noResults = document.createElement('p');
+        noResults.id = 'no-results';
+        noResults.style.cssText = 'color:var(--text-muted);font-size:1rem;padding:40px 0;text-align:center;width:100%;';
+        noResults.textContent = 'No results found. Try a different search term.';
+        searchInput.closest('.container')?.querySelector('.card-grid, .jobs-list')?.appendChild(noResults);
+      }
+      noResults.style.display = visibleCount === 0 && query !== '' ? 'block' : 'none';
+
+      // Update pagination if active
+      const paginationCtrl = document.querySelector('.pagination-controls');
+      if (paginationCtrl) {
+        paginationCtrl.style.display = query === '' ? 'flex' : 'none';
+      }
+    }, 300);
   });
 }
-
 
 // ===== NEWSLETTER FORM =====
 const newsletterForms = document.querySelectorAll('.newsletter-form');
@@ -203,4 +228,60 @@ document.querySelectorAll('.card, .job-card, .news-card').forEach(el => {
   el.style.transform = 'translateY(16px)';
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, box-shadow 0.3s';
   observer.observe(el);
+});
+
+// ===== PAGINATION =====
+function initPagination(containerSelector, itemSelector, perPage = 12) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+
+  const items = Array.from(container.querySelectorAll(itemSelector));
+  if (items.length <= perPage) return;
+
+  let currentPage = 1;
+  const totalPages = Math.ceil(items.length / perPage);
+
+  function showPage(page) {
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    items.forEach((item, i) => {
+      item.style.display = i >= start && i < end ? '' : 'none';
+    });
+    updateControls();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateControls() {
+    const ctrl = document.querySelector(`${containerSelector}-pagination`);
+    if (!ctrl) return;
+    ctrl.querySelector('.page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+    ctrl.querySelector('.btn-prev').disabled = currentPage === 1;
+    ctrl.querySelector('.btn-next').disabled = currentPage === totalPages;
+  }
+
+  // Create pagination controls
+  const ctrl = document.createElement('div');
+  ctrl.className = 'pagination-controls';
+  ctrl.setAttribute('id', `${containerSelector.replace('.', '')}-pagination`);
+  ctrl.innerHTML = `
+    <button class="btn-prev pagination-btn">← Previous</button>
+    <span class="page-info">Page 1 of ${totalPages}</span>
+    <button class="btn-next pagination-btn">Next →</button>
+  `;
+  container.parentNode.insertBefore(ctrl, container.nextSibling);
+
+  ctrl.querySelector('.btn-prev').addEventListener('click', () => {
+    if (currentPage > 1) { currentPage--; showPage(currentPage); }
+  });
+  ctrl.querySelector('.btn-next').addEventListener('click', () => {
+    if (currentPage < totalPages) { currentPage++; showPage(currentPage); }
+  });
+
+  showPage(1);
+}
+
+// Init pagination on jobs and news pages
+document.addEventListener('DOMContentLoaded', () => {
+  initPagination('.card-grid', '.news-card', 12);
+  initPagination('.jobs-list', '.job-card-v', 12);
 });
