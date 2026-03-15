@@ -1,15 +1,35 @@
 import fs from 'fs';
 import path from 'path';
 
-// Categories to fetch from Remotive
-const CATEGORIES = [
+// ===== JOB SOURCES =====
+// 1. Remotive API (multiple categories)
+const REMOTIVE_CATEGORIES = [
   'software-dev',
   'design',
   'product',
   'data',
+  'devops',
+  'finance',
+  'marketing',
 ];
 
-// Strip HTML tags from description
+// 2. WeWorkRemotely RSS feeds
+const WWR_FEEDS = [
+  { url: 'https://weworkremotely.com/categories/remote-programming-jobs.rss', type: 'Engineering' },
+  { url: 'https://weworkremotely.com/categories/remote-design-jobs.rss', type: 'Design' },
+  { url: 'https://weworkremotely.com/categories/remote-product-jobs.rss', type: 'Product' },
+  { url: 'https://weworkremotely.com/categories/remote-front-end-programming-jobs.rss', type: 'Engineering' },
+  { url: 'https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss', type: 'Engineering' },
+  { url: 'https://weworkremotely.com/categories/remote-full-stack-programming-jobs.rss', type: 'Engineering' },
+];
+
+const KEYWORDS = [
+  'design', 'designer', 'developer', 'engineer', 'frontend', 'backend',
+  'product', 'ui', 'ux', 'data', 'fullstack', 'mobile', 'ios', 'android',
+  'react', 'node', 'python', 'javascript', 'typescript', 'software', 'web',
+  'figma', 'brand', 'visual', 'motion', 'graphics', 'creative',
+];
+
 function stripHtml(html) {
   return html
     .replace(/<[^>]*>/g, ' ')
@@ -17,11 +37,11 @@ function stripHtml(html) {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&nbsp;/g, ' ')
+    .replace(/&#\d+;/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 }
 
-// Convert job type to readable format
 function formatJobType(type) {
   const map = {
     'full_time': 'Full-time',
@@ -30,10 +50,9 @@ function formatJobType(type) {
     'internship': 'Internship',
     'freelance': 'Contract',
   };
-  return map[type] || 'Full-time';
+  return map[type?.toLowerCase()] || 'Full-time';
 }
 
-// Create slug from title and company
 function createSlug(title, company, id) {
   return `${title}-${company}-${id}`
     .toLowerCase()
@@ -42,64 +61,113 @@ function createSlug(title, company, id) {
     .substring(0, 80);
 }
 
-// Check if file already exists
 function jobExists(slug) {
-  const filePath = path.join('src/content/jobs', `${slug}.md`);
-  return fs.existsSync(filePath);
+  return fs.existsSync(path.join('src/content/jobs', `${slug}.md`));
+}
+
+function isRelevant(title) {
+  const t = title.toLowerCase();
+  return KEYWORDS.some(kw => t.includes(kw));
+}
+
+// Parse WWR RSS XML
+function parseWWR(xml, jobType) {
+  const items = [];
+  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+  let match;
+
+  while ((match = itemRegex.exec(xml)) !== null) {
+    const item = match[1];
+    const title = item.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] || 
+                  item.match(/<title>(.*?)<\/title>/)?.[1];
+    const link = item.match(/<link>(.*?)<\/link>/)?.[1];
+    const company = item.match(/<company_name>(.*?)<\/company_name>/)?.[1] ||
+                    item.match(/<region><!\[CDATA\[(.*?)\]\]><\/region>/)?.[1] || '';
+    const desc = item.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/)?.[1] || '';
+    const pubDate = item.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || '';
+
+    if (title && link) {
+      // WWR title format is usually "Company: Job Title"
+      const parts = title.split(':');
+      const jobTitle = parts.length > 1 ? parts.slice(1).join(':').trim() : title.trim();
+      const companyName = parts.length > 1 ? parts[0].trim() : 'Remote Company';
+
+      items.push({
+        title: jobTitle,
+        company_name: companyName,
+        url: link.trim(),
+        job_type: jobType,
+        candidate_required_location: 'Remote',
+        salary: '',
+        description: stripHtml(desc).substring(0, 500),
+        publication_date: pubDate,
+      });
+    }
+  }
+  return items;
 }
 
 async function fetchJobs() {
-  console.log('🔍 Fetching jobs from Remotive API...');
-  
+  console.log('🔍 Fetching jobs from all sources...\n');
+
+  if (!fs.existsSync('src/content/jobs')) {
+    fs.mkdirSync('src/content/jobs', { recursive: true });
+  }
+
   let allJobs = [];
 
-  for (const category of CATEGORIES) {
+  // === SOURCE 1: Remotive API ===
+  console.log('📡 Source 1: Remotive API');
+  for (const category of REMOTIVE_CATEGORIES) {
     try {
       const res = await fetch(`https://remotive.com/api/remote-jobs?category=${category}&limit=10`);
       const data = await res.json();
       allJobs = allJobs.concat(data.jobs || []);
-      console.log(`✓ Fetched ${data.jobs?.length || 0} jobs from ${category}`);
+      console.log(`  ✓ ${category}: ${data.jobs?.length || 0} jobs`);
     } catch (err) {
-      console.error(`✗ Failed to fetch ${category}:`, err.message);
+      console.log(`  ✗ ${category}: ${err.message}`);
     }
   }
 
-  // Filter for design and tech relevant jobs
-  const keywords = ['design', 'designer', 'developer', 'engineer', 'frontend', 'backend', 'product', 'ui', 'ux', 'data', 'fullstack', 'mobile', 'ios', 'android', 'react', 'node', 'python'];
-  
-  const filtered = allJobs.filter(job => {
-    const titleLower = job.title.toLowerCase();
-    return keywords.some(kw => titleLower.includes(kw));
-  });
-
-  console.log(`\n📋 Found ${filtered.length} relevant jobs after filtering`);
-
-  // Ensure directory exists
-  if (!fs.existsSync('src/content/jobs')) {
-    fs.mkdirSync('src/content/jobs', { recursive: true });
+  // === SOURCE 2: WeWorkRemotely RSS ===
+  console.log('\n📡 Source 2: WeWorkRemotely RSS');
+  for (const feed of WWR_FEEDS) {
+    try {
+      const res = await fetch(feed.url, {
+        headers: { 'User-Agent': 'DesignTechNews Job Fetcher' }
+      });
+      if (!res.ok) { console.log(`  ✗ ${feed.type}: HTTP ${res.status}`); continue; }
+      const xml = await res.text();
+      const items = parseWWR(xml, feed.type);
+      // Map to same format as Remotive
+      const mapped = items.slice(0, 8).map((j, i) => ({
+        ...j,
+        id: `wwr-${Date.now()}-${i}`,
+        job_type: 'full_time',
+        jobTypeLabel: feed.type,
+      }));
+      allJobs = allJobs.concat(mapped);
+      console.log(`  ✓ ${feed.type}: ${items.length} jobs`);
+    } catch (err) {
+      console.log(`  ✗ ${feed.type}: ${err.message}`);
+    }
   }
+
+  // Filter relevant jobs
+  const filtered = allJobs.filter(job => isRelevant(job.title));
+  console.log(`\n📋 ${filtered.length} relevant jobs from ${allJobs.length} total\n`);
 
   let created = 0;
   let skipped = 0;
 
   for (const job of filtered) {
     const slug = createSlug(job.title, job.company_name, job.id);
-    
-    if (jobExists(slug)) {
-      skipped++;
-      continue;
-    }
+    if (jobExists(slug)) { skipped++; continue; }
 
-    const jobType = formatJobType(job.job_type);
+    const jobType = job.jobTypeLabel || formatJobType(job.job_type);
     const location = job.candidate_required_location || 'Remote';
     const salary = job.salary || '';
-    const description = stripHtml(job.description).substring(0, 300) + '...';
-    const date = new Date(job.publication_date).toLocaleDateString('en-US', { 
-      year: 'numeric', month: 'long', day: 'numeric' 
-    });
-
-    // Clean description for markdown body
-    const bodyText = stripHtml(job.description).substring(0, 1500);
+    const body = job.description ? stripHtml(job.description).substring(0, 1000) : 'Visit the company careers page for full job description.';
 
     const content = `---
 title: "${job.title.replace(/"/g, "'")}"
@@ -110,13 +178,12 @@ ${salary ? `salary: "${salary}"` : ''}
 link: "${job.url}"
 ---
 
-${bodyText}
+${body}
 `;
 
-    const filePath = path.join('src/content/jobs', `${slug}.md`);
-    fs.writeFileSync(filePath, content, 'utf-8');
+    fs.writeFileSync(path.join('src/content/jobs', `${slug}.md`), content, 'utf-8');
     created++;
-    console.log(`✓ Created: ${job.title} at ${job.company_name}`);
+    console.log(`✓ ${job.title.substring(0, 50)} @ ${job.company_name}`);
   }
 
   console.log(`\n✅ Done! Created ${created} new jobs, skipped ${skipped} existing.`);
