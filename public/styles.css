@@ -859,6 +859,7 @@ nav {
   display: flex;
   gap: 12px;
   max-width: 500px;
+  position: relative;
 }
 
 .newsletter-form input {
