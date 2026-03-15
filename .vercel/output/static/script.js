@@ -101,6 +101,7 @@ if (searchInput) {
   });
 }
 
+
 // ===== NEWSLETTER FORM =====
 const newsletterForms = document.querySelectorAll('.newsletter-form');
 newsletterForms.forEach(form => {
@@ -117,6 +118,64 @@ newsletterForms.forEach(form => {
         btn.style.background = '';
       }, 3000);
     }
+  });
+});
+
+// ===== MAILCHIMP AJAX =====
+document.addEventListener('DOMContentLoaded', () => {
+  const mcForm = document.getElementById('mc-form');
+  if (mcForm) {
+    mcForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('mc-email').value;
+      const btn = document.getElementById('mc-btn');
+      
+      btn.textContent = 'Subscribing...';
+      btn.disabled = true;
+
+      const url = `https://app.us16.list-manage.com/subscribe/post-json?u=3b667d867a0c7d77bc2de09db&id=3d67b5db75&f_id=00bdc2e1f0&EMAIL=${encodeURIComponent(email)}&c=handleMailchimpResponse`;
+
+      const script = document.createElement('script');
+      script.src = url;
+      document.body.appendChild(script);
+
+      window.handleMailchimpResponse = (data) => {
+        document.body.removeChild(script);
+        btn.textContent = '✓ Subscribed!';
+        btn.style.background = '#16A34A';
+        document.getElementById('newsletter-default').style.display = 'none';
+        document.getElementById('newsletter-success').style.display = 'flex';
+      };
+    });
+  }
+});
+
+// ===== MAILCHIMP AJAX - ALL PAGES =====
+document.querySelectorAll('.newsletter-sub').forEach(form => {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const emailInput = form.querySelector('input[type="email"]');
+    const btn = form.querySelector('button[type="submit"]');
+    const email = emailInput.value;
+    const successDiv = form.closest('.newsletter-layout').querySelector('.newsletter-sub-success');
+
+    btn.textContent = 'Subscribing...';
+    btn.disabled = true;
+
+    const url = `https://app.us16.list-manage.com/subscribe/post-json?u=3b667d867a0c7d77bc2de09db&id=3d67b5db75&f_id=00bdc2e1f0&EMAIL=${encodeURIComponent(email)}&c=handleMCResponse`;
+
+    const script = document.createElement('script');
+    script.src = url;
+    document.body.appendChild(script);
+
+    window.handleMCResponse = (data) => {
+      document.body.removeChild(script);
+      btn.textContent = '✓ Subscribed!';
+      btn.style.background = '#16A34A';
+      if (successDiv) {
+        successDiv.style.display = 'flex';
+      }
+    };
   });
 });
 

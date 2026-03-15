@@ -47,6 +47,7 @@ const { Content } = await render(article);
   <a href="/opportunities">Opportunities</a>
   <a href="/jobs">Jobs</a>
   <a href="/news">News</a>
+  <a href="/about">About</a>
 </nav>
 
 <header>
@@ -61,6 +62,7 @@ const { Content } = await render(article);
         <li><a href="/opportunities">Opportunities</a></li>
         <li><a href="/jobs">Jobs</a></li>
         <li><a href="/news" class="active">News</a></li>
+        <li><a href="/about">About</a></li>
       </ul>
       <div class="nav-right">
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
@@ -130,7 +132,7 @@ const { Content } = await render(article);
         <div class="newsletter-inner">
           <p class="section-label">📬 Never miss an update</p>
           <h2 style="font-size:clamp(1.5rem,2.5vw,2rem);">Get weekly design & tech opportunities</h2>
-          <form class="newsletter-form" action="https://app.us16.list-manage.com/subscribe/post?u=3b667d867a0c7d77bc2de09db&amp;id=3d67b5db75&amp;f_id=00bdc2e1f0" method="post" target="_blank" style="position:relative;margin-top:20px;">
+          <form class="newsletter-form newsletter-sub" style="position:relative;margin-top:20px;">
             <input type="email" name="EMAIL" placeholder="Enter your email address" required aria-label="Email address" />
             <div style="position:absolute;left:-5000px;" aria-hidden="true">
               <input type="text" name="b_3b667d867a0c7d77bc2de09db_3d67b5db75" tabindex="-1" value="" />
@@ -138,6 +140,16 @@ const { Content } = await render(article);
             <button type="submit">Subscribe Free</button>
           </form>
           <p class="newsletter-trust">🔒 No spam. Unsubscribe anytime.</p>
+        </div>
+        <div class="newsletter-image newsletter-sub-success" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;">
+          <div class="success-check">
+            <svg viewBox="0 0 52 52" class="checkmark-svg">
+              <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+          </div>
+          <p style="color:white;font-weight:700;font-size:1.1rem;margin:0;">You're in! 🎉</p>
+          <p style="color:rgba(255,255,255,0.65);font-size:0.9rem;margin:0;">Check your inbox for a confirmation email.</p>
         </div>
       </div>
     </div>
@@ -197,7 +209,7 @@ const { Content } = await render(article);
       <div class="footer-col">
         <h5>Company</h5>
         <ul class="footer-links">
-          <li><a href="#">About Us</a></li>
+          <li><a href="/about">About Us</a></li>
           <li><a href="#">Submit News</a></li>
           <li><a href="#">Advertise</a></li>
           <li><a href="#">Contact</a></li>
