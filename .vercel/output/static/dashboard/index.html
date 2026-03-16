@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="en" data-theme="light" data-astro-cid-3nssi2tu> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Dashboard – DesignTechNews</title><meta name="robots" content="noindex, nofollow"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/styles.css"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="stylesheet" href="/_astro/dashboard@_@astro.D-zyqJPH.css"></head> <body data-astro-cid-3nssi2tu> <!-- ══════════════════════════════════
+     LOCK SCREEN
+═══════════════════════════════════ --> <div id="lock-screen" data-astro-cid-3nssi2tu> <div class="lock-card" data-astro-cid-3nssi2tu> <div class="lock-icon" data-astro-cid-3nssi2tu>🔒</div> <h2 data-astro-cid-3nssi2tu>Dashboard Access</h2> <p data-astro-cid-3nssi2tu>Enter your password to continue</p> <input type="password" id="password-input" class="lock-input" placeholder="••••••••" autocomplete="current-password" data-astro-cid-3nssi2tu> <p class="lock-error" id="lock-error" data-astro-cid-3nssi2tu>Incorrect password. Try again.</p> <button class="lock-btn" id="unlock-btn" data-astro-cid-3nssi2tu>Unlock Dashboard →</button> </div> </div> <!-- ══════════════════════════════════
+     DASHBOARD
+═══════════════════════════════════ --> <div id="dashboard" data-astro-cid-3nssi2tu> <!-- Header --> <header class="dash-header" data-astro-cid-3nssi2tu> <div class="dash-nav" data-astro-cid-3nssi2tu> <div class="logo-area" data-astro-cid-3nssi2tu> <div class="dash-logo-badge" data-astro-cid-3nssi2tu>📊</div> <h1 data-astro-cid-3nssi2tu>DesignTechNews</h1> <span class="dash-badge" data-astro-cid-3nssi2tu>DASHBOARD</span> </div> <div class="dash-nav-right" data-astro-cid-3nssi2tu> <span class="dash-date" id="current-date" data-astro-cid-3nssi2tu></span> <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" style="border-color:rgba(255,255,255,0.15);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.65);" data-astro-cid-3nssi2tu>🌙</button> <button class="dash-logout" id="logout-btn" data-astro-cid-3nssi2tu>Sign out</button> </div> </div> </header> <div class="dash-body" data-astro-cid-3nssi2tu> <!-- GA Setup Banner --> <div class="setup-banner" id="ga-banner" data-astro-cid-3nssi2tu> <span class="setup-icon" data-astro-cid-3nssi2tu>📌</span> <div data-astro-cid-3nssi2tu> <h4 data-astro-cid-3nssi2tu>Connect Google Analytics 4</h4> <p data-astro-cid-3nssi2tu>
+Add your <code data-astro-cid-3nssi2tu>G-XXXXXXXXXX</code> measurement ID to your Astro project to start
+          tracking real visitors. See the setup instructions below.
+          Once connected, view live data in your
+<a href="https://analytics.google.com" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;" data-astro-cid-3nssi2tu>GA4 dashboard →</a> </p> </div> </div> <!-- KPI Cards --> <p class="dash-section-title" data-astro-cid-3nssi2tu>Overview</p> <div class="kpi-grid" data-astro-cid-3nssi2tu> <div class="kpi-card blue" data-astro-cid-3nssi2tu> <span class="kpi-badge" data-astro-cid-3nssi2tu>👀</span> <p class="kpi-label" data-astro-cid-3nssi2tu>Total Visitors</p> <p class="kpi-value" id="kpi-visitors" data-astro-cid-3nssi2tu>—</p> <p class="kpi-sub" data-astro-cid-3nssi2tu>Connect GA4 to see live data</p> </div> <div class="kpi-card green" data-astro-cid-3nssi2tu> <span class="kpi-badge" data-astro-cid-3nssi2tu>💰</span> <p class="kpi-label" data-astro-cid-3nssi2tu>Total Earnings</p> <p class="kpi-value" id="kpi-earnings" data-astro-cid-3nssi2tu>$0</p> <p class="kpi-sub" id="kpi-earnings-sub" data-astro-cid-3nssi2tu>No entries yet</p> </div> <div class="kpi-card amber" data-astro-cid-3nssi2tu> <span class="kpi-badge" data-astro-cid-3nssi2tu>📬</span> <p class="kpi-label" data-astro-cid-3nssi2tu>Newsletter Subs</p> <p class="kpi-value" id="kpi-subs" data-astro-cid-3nssi2tu>—</p> <p class="kpi-sub" data-astro-cid-3nssi2tu>Update manually below</p> </div> <div class="kpi-card purple" data-astro-cid-3nssi2tu> <span class="kpi-badge" data-astro-cid-3nssi2tu>📋</span> <p class="kpi-label" data-astro-cid-3nssi2tu>Active Listings</p> <p class="kpi-value" id="kpi-listings" data-astro-cid-3nssi2tu>—</p> <p class="kpi-sub" data-astro-cid-3nssi2tu>Update manually below</p> </div> <div class="kpi-card coral" data-astro-cid-3nssi2tu> <span class="kpi-badge" data-astro-cid-3nssi2tu>📈</span> <p class="kpi-label" data-astro-cid-3nssi2tu>Revenue Entries</p> <p class="kpi-value" id="kpi-entries" data-astro-cid-3nssi2tu>0</p> <p class="kpi-sub" data-astro-cid-3nssi2tu>Logged this month</p> </div> </div> <!-- Quick Metrics Edit --> <p class="dash-section-title" data-astro-cid-3nssi2tu>Manual Metrics</p> <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;" data-astro-cid-3nssi2tu> <div style="display:flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;" data-astro-cid-3nssi2tu> <label style="font-size:13px;font-weight:600;color:var(--text-muted);white-space:nowrap;" data-astro-cid-3nssi2tu>Newsletter subs</label> <input type="number" id="input-subs" placeholder="0" min="0" style="width:80px;padding:6px 10px;background:var(--bg);border:1.5px solid var(--border);border-radius:6px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);outline:none;" data-astro-cid-3nssi2tu> </div> <div style="display:flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;" data-astro-cid-3nssi2tu> <label style="font-size:13px;font-weight:600;color:var(--text-muted);white-space:nowrap;" data-astro-cid-3nssi2tu>Active listings</label> <input type="number" id="input-listings" placeholder="0" min="0" style="width:80px;padding:6px 10px;background:var(--bg);border:1.5px solid var(--border);border-radius:6px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);outline:none;" data-astro-cid-3nssi2tu> </div> <button onclick="saveMetrics()" style="padding:10px 20px;background:var(--blue);color:white;border:none;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--blue-dark)'" onmouseout="this.style.background='var(--blue)'" data-astro-cid-3nssi2tu>
+Save
+</button> </div> <!-- Analytics Section --> <p class="dash-section-title" data-astro-cid-3nssi2tu>Analytics</p> <div class="analytics-grid" data-astro-cid-3nssi2tu> <div class="analytics-card" data-astro-cid-3nssi2tu> <h4 data-astro-cid-3nssi2tu>Traffic overview</h4> <div class="placeholder-chart" data-astro-cid-3nssi2tu> <div class="chart-bar" style="height:20%" data-astro-cid-3nssi2tu></div> <div class="chart-bar" style="height:35%" data-astro-cid-3nssi2tu></div> <div class="chart-bar" style="height:28%" data-astro-cid-3nssi2tu></div> <div class="chart-bar" style="height:55%" data-astro-cid-3nssi2tu></div> <div class="chart-bar" style="height:42%" data-astro-cid-3nssi2tu></div> <div class="chart-bar" style="height:70%" data-astro-cid-3nssi2tu></div> <div class="chart-bar" style="height:60%" data-astro-cid-3nssi2tu></div> <div class="placeholder-overlay" data-astro-cid-3nssi2tu>Waiting for GA4 data</div> </div> <a href="https://analytics.google.com" target="_blank" rel="noopener" class="ga-link-btn" data-astro-cid-3nssi2tu>
+Open Google Analytics →
+</a> </div> <div class="analytics-card" data-astro-cid-3nssi2tu> <h4 data-astro-cid-3nssi2tu>Top pages</h4> <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;" data-astro-cid-3nssi2tu> <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-muted);padding:8px 12px;background:var(--bg);border-radius:6px;" data-astro-cid-3nssi2tu> <span data-astro-cid-3nssi2tu>/opportunities</span><span data-astro-cid-3nssi2tu>—</span> </div> <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-muted);padding:8px 12px;background:var(--bg);border-radius:6px;" data-astro-cid-3nssi2tu> <span data-astro-cid-3nssi2tu>/jobs</span><span data-astro-cid-3nssi2tu>—</span> </div> <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-muted);padding:8px 12px;background:var(--bg);border-radius:6px;" data-astro-cid-3nssi2tu> <span data-astro-cid-3nssi2tu>/news</span><span data-astro-cid-3nssi2tu>—</span> </div> <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-muted);padding:8px 12px;background:var(--bg);border-radius:6px;" data-astro-cid-3nssi2tu> <span data-astro-cid-3nssi2tu>/</span><span data-astro-cid-3nssi2tu>—</span> </div> </div> <a href="https://analytics.google.com" target="_blank" rel="noopener" class="ga-link-btn" data-astro-cid-3nssi2tu>
+Open Google Analytics →
+</a> </div> </div> <!-- Revenue Log --> <p class="dash-section-title" style="margin-top:40px;" data-astro-cid-3nssi2tu>Revenue log</p> <div class="revenue-section" data-astro-cid-3nssi2tu> <div class="revenue-header" data-astro-cid-3nssi2tu> <h3 data-astro-cid-3nssi2tu>Earnings entries</h3> <button class="add-entry-btn" id="open-modal-btn" data-astro-cid-3nssi2tu>+ Add entry</button> </div> <div id="revenue-body" data-astro-cid-3nssi2tu> <div class="empty-state" id="empty-state" data-astro-cid-3nssi2tu> <div class="empty-icon" data-astro-cid-3nssi2tu>💸</div> <p data-astro-cid-3nssi2tu>No revenue logged yet. Hit <strong data-astro-cid-3nssi2tu>+ Add entry</strong> when your first payment lands.</p> </div> <table class="revenue-table" id="revenue-table" style="display:none;" data-astro-cid-3nssi2tu> <thead data-astro-cid-3nssi2tu> <tr data-astro-cid-3nssi2tu> <th data-astro-cid-3nssi2tu>Date</th> <th data-astro-cid-3nssi2tu>Stream</th> <th data-astro-cid-3nssi2tu>Description</th> <th data-astro-cid-3nssi2tu>Amount (USD)</th> <th data-astro-cid-3nssi2tu></th> </tr> </thead> <tbody id="revenue-rows" data-astro-cid-3nssi2tu></tbody> </table> </div> <div class="totals-row" id="totals-row" style="display:none;" data-astro-cid-3nssi2tu> <span data-astro-cid-3nssi2tu>Total logged</span> <span class="total-amount" id="total-amount" data-astro-cid-3nssi2tu>$0.00</span> </div> </div> <!-- GA4 Setup Instructions --> <p class="dash-section-title" style="margin-top:40px;" data-astro-cid-3nssi2tu>Google Analytics 4 setup</p> <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;" data-astro-cid-3nssi2tu> <div style="display:flex;flex-direction:column;gap:20px;" data-astro-cid-3nssi2tu> <div style="display:flex;gap:14px;align-items:flex-start;" data-astro-cid-3nssi2tu> <div style="width:28px;height:28px;background:rgba(37,99,235,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue);flex-shrink:0;" data-astro-cid-3nssi2tu>1</div> <div data-astro-cid-3nssi2tu> <p style="font-size:14px;font-weight:700;margin-bottom:4px;" data-astro-cid-3nssi2tu>Create a GA4 property</p> <p style="font-size:13px;color:var(--text-muted);line-height:1.65;" data-astro-cid-3nssi2tu>
+Go to <a href="https://analytics.google.com" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;" data-astro-cid-3nssi2tu>analytics.google.com</a> →
+              Admin → Create Property. Choose "Web", enter your site URL.
+              Copy your <strong data-astro-cid-3nssi2tu>Measurement ID</strong> (starts with <code style="background:rgba(37,99,235,0.08);color:var(--blue);padding:2px 6px;border-radius:4px;font-size:12px;" data-astro-cid-3nssi2tu>G-</code>).
+</p> </div> </div> <div style="display:flex;gap:14px;align-items:flex-start;" data-astro-cid-3nssi2tu> <div style="width:28px;height:28px;background:rgba(37,99,235,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue);flex-shrink:0;" data-astro-cid-3nssi2tu>2</div> <div data-astro-cid-3nssi2tu> <p style="font-size:14px;font-weight:700;margin-bottom:4px;" data-astro-cid-3nssi2tu>Add the snippet to your Astro layout</p> <p style="font-size:13px;color:var(--text-muted);margin-bottom:10px;line-height:1.65;" data-astro-cid-3nssi2tu>
+Paste this inside the <code style="background:rgba(37,99,235,0.08);color:var(--blue);padding:2px 6px;border-radius:4px;font-size:12px;" data-astro-cid-3nssi2tu>&lt;head&gt;</code> of every page
+              (or a shared layout component). Replace <code style="background:rgba(37,99,235,0.08);color:var(--blue);padding:2px 6px;border-radius:4px;font-size:12px;" data-astro-cid-3nssi2tu>G-XXXXXXXXXX</code>
+with your real ID:
+</p> <pre id="ga-snippet" style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:12px;color:var(--text-mid);overflow-x:auto;line-height:1.7;" data-astro-cid-3nssi2tu></pre> </div> </div> <div style="display:flex;gap:14px;align-items:flex-start;" data-astro-cid-3nssi2tu> <div style="width:28px;height:28px;background:rgba(37,99,235,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue);flex-shrink:0;" data-astro-cid-3nssi2tu>3</div> <div data-astro-cid-3nssi2tu> <p style="font-size:14px;font-weight:700;margin-bottom:4px;" data-astro-cid-3nssi2tu>Deploy and verify</p> <p style="font-size:13px;color:var(--text-muted);line-height:1.65;" data-astro-cid-3nssi2tu>
+Push to Vercel. Then in GA4 go to
+<strong data-astro-cid-3nssi2tu>Reports → Realtime</strong> and open your site in a new tab —
+              you should see yourself as an active user within 30 seconds.
+</p> </div> </div> <div style="display:flex;gap:14px;align-items:flex-start;" data-astro-cid-3nssi2tu> <div style="width:28px;height:28px;background:rgba(34,197,94,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--green-dark);flex-shrink:0;" data-astro-cid-3nssi2tu>✓</div> <div data-astro-cid-3nssi2tu> <p style="font-size:14px;font-weight:700;margin-bottom:4px;" data-astro-cid-3nssi2tu>Optional: Carbon Ads setup</p> <p style="font-size:13px;color:var(--text-muted);line-height:1.65;" data-astro-cid-3nssi2tu>
+Apply at <a href="https://www.carbonads.net" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;" data-astro-cid-3nssi2tu>carbonads.net</a> (curated, design/dev niche).
+              Once approved, paste their <code style="background:rgba(37,99,235,0.08);color:var(--blue);padding:2px 6px;border-radius:4px;font-size:12px;" data-astro-cid-3nssi2tu>&lt;script&gt;</code>
+tag wherever you want ads to appear. Track ad earnings manually in the revenue log above.
+</p> </div> </div> </div> </div> </div><!-- /dash-body --> </div><!-- /dashboard --> <!-- ══════════════════════════════════
+     ADD ENTRY MODAL
+═══════════════════════════════════ --> <div class="modal-overlay" id="entry-modal" data-astro-cid-3nssi2tu> <div class="modal-box" data-astro-cid-3nssi2tu> <button class="modal-close" id="close-modal" data-astro-cid-3nssi2tu>✕</button> <h3 data-astro-cid-3nssi2tu>Log revenue entry</h3> <p class="modal-sub" data-astro-cid-3nssi2tu>Record a payment or earnings from any stream.</p> <div class="form-row" data-astro-cid-3nssi2tu> <div class="form-group" data-astro-cid-3nssi2tu> <label for="entry-date" data-astro-cid-3nssi2tu>Date</label> <input type="date" id="entry-date" data-astro-cid-3nssi2tu> </div> <div class="form-group" data-astro-cid-3nssi2tu> <label for="entry-amount" data-astro-cid-3nssi2tu>Amount (USD)</label> <input type="number" id="entry-amount" placeholder="0.00" min="0" step="0.01" data-astro-cid-3nssi2tu> </div> </div> <div class="form-group" data-astro-cid-3nssi2tu> <label for="entry-stream" data-astro-cid-3nssi2tu>Revenue stream</label> <select id="entry-stream" data-astro-cid-3nssi2tu> <option value="sponsored" data-astro-cid-3nssi2tu>Sponsored listing</option> <option value="newsletter" data-astro-cid-3nssi2tu>Newsletter sponsorship</option> <option value="affiliate" data-astro-cid-3nssi2tu>Affiliate link</option> <option value="jobpost" data-astro-cid-3nssi2tu>Job post fee</option> <option value="ads" data-astro-cid-3nssi2tu>Ads (AdSense / Carbon)</option> </select> </div> <div class="form-group" data-astro-cid-3nssi2tu> <label for="entry-desc" data-astro-cid-3nssi2tu>Description</label> <input type="text" id="entry-desc" placeholder="e.g. Figma sponsored slot – Jan edition" data-astro-cid-3nssi2tu> </div> <button class="modal-save-btn" id="save-entry-btn" data-astro-cid-3nssi2tu>Save entry</button> </div> </div> <script>
+  // ── CONFIG ──────────────────────────────────────────────
+  // CHANGE THIS PASSWORD before deploying!
+  const DASHBOARD_PASSWORD = 'D7!vQ9#tL2@Xr8$Kp4Zf';
+  const STORAGE_KEY = 'dtn_dashboard_data';
+  // ────────────────────────────────────────────────────────
+
+  // ── Lock screen ──
+  const lockScreen  = document.getElementById('lock-screen');
+  const dashEl      = document.getElementById('dashboard');
+  const pwInput     = document.getElementById('password-input');
+  const unlockBtn   = document.getElementById('unlock-btn');
+  const lockError   = document.getElementById('lock-error');
+  const logoutBtn   = document.getElementById('logout-btn');
+
+  function unlock() {
+    if (pwInput.value === DASHBOARD_PASSWORD) {
+      sessionStorage.setItem('dtn_auth', '1');
+      lockScreen.style.display = 'none';
+      dashEl.style.display = 'block';
+      initDashboard();
+    } else {
+      pwInput.classList.add('error');
+      lockError.style.display = 'block';
+      setTimeout(() => pwInput.classList.remove('error'), 400);
+    }
+  }
+
+  if (sessionStorage.getItem('dtn_auth') === '1') {
+    lockScreen.style.display = 'none';
+    dashEl.style.display = 'block';
+    initDashboard();
+  }
+
+  unlockBtn.addEventListener('click', unlock);
+  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+  logoutBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('dtn_auth');
+    location.reload();
+  });
+
+  // ── Data ──
+  function loadData() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { entries: [], metrics: {} }; }
+    catch { return { entries: [], metrics: {} }; }
+  }
+
+  function saveData(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  // ── Revenue table ──
+  const streamLabels = {
+    sponsored:  { label: 'Sponsored listing',      cls: 'stream-sponsored' },
+    newsletter: { label: 'Newsletter sponsorship', cls: 'stream-newsletter' },
+    affiliate:  { label: 'Affiliate',              cls: 'stream-affiliate' },
+    jobpost:    { label: 'Job post fee',           cls: 'stream-jobpost' },
+    ads:        { label: 'Ads (AdSense/Carbon)',   cls: 'stream-ads' },
+  };
+
+  function renderTable(data) {
+    const tbody       = document.getElementById('revenue-rows');
+    const tableEl     = document.getElementById('revenue-table');
+    const emptyState  = document.getElementById('empty-state');
+    const totalsRow   = document.getElementById('totals-row');
+    const totalAmtEl  = document.getElementById('total-amount');
+    const kpiEarnings = document.getElementById('kpi-earnings');
+    const kpiSub      = document.getElementById('kpi-earnings-sub');
+    const kpiEntries  = document.getElementById('kpi-entries');
+
+    const entries = data.entries || [];
+    tbody.innerHTML = '';
+
+    if (entries.length === 0) {
+      emptyState.style.display = 'block';
+      tableEl.style.display    = 'none';
+      totalsRow.style.display  = 'none';
+      kpiEarnings.textContent  = '$0';
+      kpiSub.textContent       = 'No entries yet';
+      kpiEntries.textContent   = '0';
+      return;
+    }
+
+    emptyState.style.display = 'none';
+    tableEl.style.display    = 'table';
+    totalsRow.style.display  = 'flex';
+
+    let total = 0;
+    const sorted = [...entries].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    sorted.forEach((e, i) => {
+      total += parseFloat(e.amount) || 0;
+      const s = streamLabels[e.stream] || { label: e.stream, cls: 'stream-sponsored' };
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${e.date}</td>
+        <td><span class="stream-badge ${s.cls}">${s.label}</span></td>
+        <td>${e.description || '—'}</td>
+        <td class="amount">$${parseFloat(e.amount).toFixed(2)}</td>
+        <td><button class="del-btn" data-id="${e.id}" title="Delete">✕</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    totalAmtEl.textContent  = '$' + total.toFixed(2);
+    kpiEarnings.textContent = '$' + total.toFixed(2);
+    kpiSub.textContent      = entries.length + ' entr' + (entries.length === 1 ? 'y' : 'ies') + ' logged';
+    kpiEntries.textContent  = entries.length;
+
+    // Delete handlers
+    tbody.querySelectorAll('.del-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const d  = loadData();
+        d.entries = d.entries.filter(e => e.id !== id);
+        saveData(d);
+        renderTable(d);
+      });
+    });
+  }
+
+  // ── Manual metrics ──
+  function saveMetrics() {
+    const subs     = document.getElementById('input-subs').value;
+    const listings = document.getElementById('input-listings').value;
+    const d        = loadData();
+    d.metrics = { subs, listings };
+    saveData(d);
+    document.getElementById('kpi-subs').textContent     = subs     ? Number(subs).toLocaleString()     : '—';
+    document.getElementById('kpi-listings').textContent = listings ? Number(listings).toLocaleString() : '—';
+  }
+  window.saveMetrics = saveMetrics;
+
+  // ── Modal ──
+  const modal      = document.getElementById('entry-modal');
+  const openModal  = document.getElementById('open-modal-btn');
+  const closeModal = document.getElementById('close-modal');
+  const saveEntry  = document.getElementById('save-entry-btn');
+
+  openModal.addEventListener('click',  () => modal.classList.add('open'));
+  closeModal.addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+  saveEntry.addEventListener('click', () => {
+    const date   = document.getElementById('entry-date').value;
+    const amount = document.getElementById('entry-amount').value;
+    const stream = document.getElementById('entry-stream').value;
+    const desc   = document.getElementById('entry-desc').value;
+
+    if (!date || !amount) {
+      alert('Please fill in at least the date and amount.');
+      return;
+    }
+
+    const d = loadData();
+    d.entries.push({
+      id: Date.now().toString(),
+      date, amount, stream, description: desc
+    });
+    saveData(d);
+    renderTable(d);
+    modal.classList.remove('open');
+
+    // reset form
+    document.getElementById('entry-date').value   = '';
+    document.getElementById('entry-amount').value = '';
+    document.getElementById('entry-desc').value   = '';
+  });
+
+  // ── Init ──
+  function initDashboard() {
+    // Date
+    document.getElementById('current-date').textContent =
+      new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+
+    // Default date in modal
+    document.getElementById('entry-date').value = new Date().toISOString().split('T')[0];
+
+    // Load saved data
+    const d = loadData();
+    renderTable(d);
+
+    // Metrics
+    if (d.metrics) {
+      if (d.metrics.subs) {
+        document.getElementById('input-subs').value = d.metrics.subs;
+        document.getElementById('kpi-subs').textContent = Number(d.metrics.subs).toLocaleString();
+      }
+      if (d.metrics.listings) {
+        document.getElementById('input-listings').value = d.metrics.listings;
+        document.getElementById('kpi-listings').textContent = Number(d.metrics.listings).toLocaleString();
+      }
+    }
+
+    // GA snippet — injected via JS so Astro never tries to parse the script tags
+    const gaSnippet = document.getElementById('ga-snippet');
+    if (gaSnippet) {
+      gaSnippet.textContent = [
+        '<!-- Google Analytics 4 -->',
+        '<script async src="https://www.googletagmanager.com/gtag/js?id=G-XLJSZNT4HL"><\/script>',
+        '<script is:inline>',
+        '  window.dataLayer = window.dataLayer || [];',
+        '  function gtag(){ dataLayer.push(arguments); }',
+        '  gtag("js", new Date());',
+        '  gtag("config", "G-XLJSZNT4HL");',
+        '<\/script>'
+      ].join('\n');
+    }
+
+    // Theme toggle
+    const toggle = document.getElementById('themeToggle');
+    const html   = document.documentElement;
+    const saved  = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', saved);
+    toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+  }
+</script> </body> </html>

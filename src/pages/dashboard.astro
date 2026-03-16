@@ -1,0 +1,1207 @@
+---
+// src/pages/dashboard.astro
+// Password-protected earnings & analytics dashboard
+// Change the password below before deploying!
+---
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – DesignTechNews</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <style>
+    /* ── Lock screen ── */
+    #lock-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lock-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .lock-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 24px;
+    }
+
+    .lock-card h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .lock-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .lock-input {
+      width: 100%;
+      padding: 13px 16px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      text-align: center;
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+    }
+
+    .lock-input:focus { border-color: var(--blue); }
+
+    .lock-input.error { border-color: #EF4444; animation: shake 0.3s; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .lock-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lock-btn:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+    }
+
+    .lock-error {
+      font-size: 13px;
+      color: #EF4444;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* ── Dashboard shell ── */
+    #dashboard { display: none; }
+
+    .dash-header {
+      background: var(--navy);
+      padding: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .dash-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 32px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .dash-nav .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dash-logo-badge {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .dash-nav h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+
+    .dash-nav .dash-badge {
+      padding: 3px 10px;
+      background: rgba(34,197,94,0.15);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 0.5px;
+    }
+
+    .dash-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .dash-date {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .dash-logout {
+      padding: 7px 16px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.65);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .dash-logout:hover {
+      background: rgba(255,255,255,0.12);
+      color: white;
+    }
+
+    .dash-body {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 36px 32px 80px;
+    }
+
+    /* ── Section titles ── */
+    .dash-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 40px 0 16px;
+    }
+
+    .dash-section-title:first-child { margin-top: 0; }
+
+    /* ── KPI Cards ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .kpi-card:hover { box-shadow: var(--shadow); }
+
+    .kpi-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .kpi-card.blue::after  { background: var(--blue); }
+    .kpi-card.green::after { background: var(--green); }
+    .kpi-card.amber::after { background: #F59E0B; }
+    .kpi-card.purple::after { background: #7C3AED; }
+    .kpi-card.coral::after { background: #F97316; }
+
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+
+    .kpi-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .kpi-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      font-size: 20px;
+      opacity: 0.18;
+    }
+
+    /* ── Revenue table ── */
+    .revenue-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .revenue-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .revenue-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .add-entry-btn {
+      padding: 8px 16px;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .add-entry-btn:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+    }
+
+    .revenue-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .revenue-table th {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 12px 24px;
+      background: rgba(37,99,235,0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    [data-theme="dark"] .revenue-table th {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .revenue-table td {
+      padding: 14px 24px;
+      font-size: 14px;
+      color: var(--text-mid);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .revenue-table tr:last-child td { border-bottom: none; }
+
+    .revenue-table tr:hover td {
+      background: rgba(37,99,235,0.03);
+    }
+
+    .revenue-table .amount {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    [data-theme="dark"] .revenue-table .amount {
+      color: var(--green);
+    }
+
+    .stream-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .stream-sponsored   { background: rgba(37,99,235,0.1);   color: var(--blue); }
+    .stream-newsletter  { background: rgba(139,92,246,0.1);  color: #7C3AED; }
+    .stream-affiliate   { background: rgba(34,197,94,0.1);   color: var(--green-dark); }
+    .stream-jobpost     { background: rgba(245,158,11,0.1);  color: #D97706; }
+    .stream-ads         { background: rgba(249,115,22,0.1);  color: #EA580C; }
+
+    [data-theme="dark"] .stream-affiliate { color: var(--green); }
+
+    .del-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+
+    .del-btn:hover { background: rgba(239,68,68,0.1); color: #EF4444; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 56px 24px;
+      color: var(--text-muted);
+    }
+
+    .empty-state .empty-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+      opacity: 0.4;
+    }
+
+    .empty-state p { font-size: 14px; }
+
+    /* ── Add entry modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+    }
+
+    .modal-box h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    .modal-box .modal-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all 0.15s;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus { border-color: var(--blue); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .modal-save-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.2s;
+    }
+
+    .modal-save-btn:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+    }
+
+    /* ── GA setup banner ── */
+    .setup-banner {
+      background: linear-gradient(135deg, rgba(37,99,235,0.08) 0%, rgba(34,197,94,0.05) 100%);
+      border: 1px solid rgba(37,99,235,0.15);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .setup-banner .setup-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .setup-banner h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .setup-banner p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .setup-banner code {
+      background: rgba(37,99,235,0.1);
+      color: var(--blue);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    /* ── Analytics placeholder ── */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .analytics-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .analytics-card h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 20px;
+    }
+
+    .ga-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: #E8710A;
+      color: white;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+      margin-top: 12px;
+    }
+
+    .ga-link-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .placeholder-chart {
+      height: 120px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(37,99,235,0.06) 0px,
+        rgba(37,99,235,0.06) 1px,
+        transparent 1px,
+        transparent 60px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(37,99,235,0.04) 0px,
+        rgba(37,99,235,0.04) 1px,
+        transparent 1px,
+        transparent 30px
+      );
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      padding: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart-bar {
+      flex: 1;
+      border-radius: 4px 4px 0 0;
+      opacity: 0.25;
+      background: var(--blue);
+      transition: opacity 0.2s;
+    }
+
+    .placeholder-chart:hover .chart-bar { opacity: 0.4; }
+
+    .placeholder-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+      backdrop-filter: blur(2px);
+    }
+
+    /* ── Totals footer ── */
+    .totals-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: rgba(37,99,235,0.04);
+      border-top: 1px solid var(--border);
+    }
+
+    .totals-row span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .totals-row .total-amount {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .dash-body { padding: 24px 16px 60px; }
+      .dash-nav { padding: 14px 16px; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .analytics-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     LOCK SCREEN
+═══════════════════════════════════ -->
+<div id="lock-screen">
+  <div class="lock-card">
+    <div class="lock-icon">🔒</div>
+    <h2>Dashboard Access</h2>
+    <p>Enter your password to continue</p>
+    <input
+      type="password"
+      id="password-input"
+      class="lock-input"
+      placeholder="••••••••"
+      autocomplete="current-password"
+    />
+    <p class="lock-error" id="lock-error">Incorrect password. Try again.</p>
+    <button class="lock-btn" id="unlock-btn">Unlock Dashboard →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     DASHBOARD
+═══════════════════════════════════ -->
+<div id="dashboard">
+
+  <!-- Header -->
+  <header class="dash-header">
+    <div class="dash-nav">
+      <div class="logo-area">
+        <div class="dash-logo-badge">📊</div>
+        <h1>DesignTechNews</h1>
+        <span class="dash-badge">DASHBOARD</span>
+      </div>
+      <div class="dash-nav-right">
+        <span class="dash-date" id="current-date"></span>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" style="border-color:rgba(255,255,255,0.15);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.65);">🌙</button>
+        <button class="dash-logout" id="logout-btn">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="dash-body">
+
+    <!-- GA Setup Banner -->
+    <div class="setup-banner" id="ga-banner">
+      <span class="setup-icon">📌</span>
+      <div>
+        <h4>Connect Google Analytics 4</h4>
+        <p>
+          Add your <code>G-XXXXXXXXXX</code> measurement ID to your Astro project to start
+          tracking real visitors. See the setup instructions below.
+          Once connected, view live data in your
+          <a href="https://analytics.google.com" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;">GA4 dashboard →</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <p class="dash-section-title">Overview</p>
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <span class="kpi-badge">👀</span>
+        <p class="kpi-label">Total Visitors</p>
+        <p class="kpi-value" id="kpi-visitors">—</p>
+        <p class="kpi-sub">Connect GA4 to see live data</p>
+      </div>
+      <div class="kpi-card green">
+        <span class="kpi-badge">💰</span>
+        <p class="kpi-label">Total Earnings</p>
+        <p class="kpi-value" id="kpi-earnings">$0</p>
+        <p class="kpi-sub" id="kpi-earnings-sub">No entries yet</p>
+      </div>
+      <div class="kpi-card amber">
+        <span class="kpi-badge">📬</span>
+        <p class="kpi-label">Newsletter Subs</p>
+        <p class="kpi-value" id="kpi-subs">—</p>
+        <p class="kpi-sub">Update manually below</p>
+      </div>
+      <div class="kpi-card purple">
+        <span class="kpi-badge">📋</span>
+        <p class="kpi-label">Active Listings</p>
+        <p class="kpi-value" id="kpi-listings">—</p>
+        <p class="kpi-sub">Update manually below</p>
+      </div>
+      <div class="kpi-card coral">
+        <span class="kpi-badge">📈</span>
+        <p class="kpi-label">Revenue Entries</p>
+        <p class="kpi-value" id="kpi-entries">0</p>
+        <p class="kpi-sub">Logged this month</p>
+      </div>
+    </div>
+
+    <!-- Quick Metrics Edit -->
+    <p class="dash-section-title">Manual Metrics</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;">
+        <label style="font-size:13px;font-weight:600;color:var(--text-muted);white-space:nowrap;">Newsletter subs</label>
+        <input type="number" id="input-subs" placeholder="0" min="0"
+          style="width:80px;padding:6px 10px;background:var(--bg);border:1.5px solid var(--border);border-radius:6px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);outline:none;" />
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;">
+        <label style="font-size:13px;font-weight:600;color:var(--text-muted);white-space:nowrap;">Active listings</label>
+        <input type="number" id="input-listings" placeholder="0" min="0"
+          style="width:80px;padding:6px 10px;background:var(--bg);border:1.5px solid var(--border);border-radius:6px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);outline:none;" />
+      </div>
+      <button onclick="saveMetrics()"
+        style="padding:10px 20px;background:var(--blue);color:white;border:none;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;"
+        onmouseover="this.style.background='var(--blue-dark)'"
+        onmouseout="this.style.background='var(--blue)'">
+        Save
+      </button>
+    </div>
+
+    <!-- Analytics Section -->
+    <p class="dash-section-title">Analytics</p>
+    <div class="analytics-grid">
+      <div class="analytics-card">
+        <h4>Traffic overview</h4>
+        <div class="placeholder-chart">
+          <div class="chart-bar" style="height:20%"></div>
+          <div class="chart-bar" style="height:35%"></div>
+          <div class="chart-bar" style="height:28%"></div>
+          <div class="chart-bar" style="height:55%"></div>
+          <div class="chart-bar" style="height:42%"></div>
+          <div class="chart-bar" style="height:70%"></div>
+          <div class="chart-bar" style="height:60%"></div>
+          <div class="placeholder-overlay">Waiting for GA4 data</div>
+        </div>
+        <a href="https://analytics.google.com" target="_blank" rel="noopener" class="ga-link-btn">
+          Open Google Analytics →
+        </a>
+      </div>
+      <div class="analytics-card">
+        <h4>Top pages</h4>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-muted);padding:8px 12px;background:var(--bg);border-radius:6px;">
+            <span>/opportunities</span><span>—</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-muted);padding:8px 12px;background:var(--bg);border-radius:6px;">
+            <span>/jobs</span><span>—</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-muted);padding:8px 12px;background:var(--bg);border-radius:6px;">
+            <span>/news</span><span>—</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-muted);padding:8px 12px;background:var(--bg);border-radius:6px;">
+            <span>/</span><span>—</span>
+          </div>
+        </div>
+        <a href="https://analytics.google.com" target="_blank" rel="noopener" class="ga-link-btn">
+          Open Google Analytics →
+        </a>
+      </div>
+    </div>
+
+    <!-- Revenue Log -->
+    <p class="dash-section-title" style="margin-top:40px;">Revenue log</p>
+    <div class="revenue-section">
+      <div class="revenue-header">
+        <h3>Earnings entries</h3>
+        <button class="add-entry-btn" id="open-modal-btn">+ Add entry</button>
+      </div>
+      <div id="revenue-body">
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">💸</div>
+          <p>No revenue logged yet. Hit <strong>+ Add entry</strong> when your first payment lands.</p>
+        </div>
+        <table class="revenue-table" id="revenue-table" style="display:none;">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Stream</th>
+              <th>Description</th>
+              <th>Amount (USD)</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="revenue-rows"></tbody>
+        </table>
+      </div>
+      <div class="totals-row" id="totals-row" style="display:none;">
+        <span>Total logged</span>
+        <span class="total-amount" id="total-amount">$0.00</span>
+      </div>
+    </div>
+
+    <!-- GA4 Setup Instructions -->
+    <p class="dash-section-title" style="margin-top:40px;">Google Analytics 4 setup</p>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
+      <div style="display:flex;flex-direction:column;gap:20px;">
+
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:28px;height:28px;background:rgba(37,99,235,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue);flex-shrink:0;">1</div>
+          <div>
+            <p style="font-size:14px;font-weight:700;margin-bottom:4px;">Create a GA4 property</p>
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.65;">
+              Go to <a href="https://analytics.google.com" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;">analytics.google.com</a> →
+              Admin → Create Property. Choose "Web", enter your site URL.
+              Copy your <strong>Measurement ID</strong> (starts with <code style="background:rgba(37,99,235,0.08);color:var(--blue);padding:2px 6px;border-radius:4px;font-size:12px;">G-</code>).
+            </p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:28px;height:28px;background:rgba(37,99,235,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue);flex-shrink:0;">2</div>
+          <div>
+            <p style="font-size:14px;font-weight:700;margin-bottom:4px;">Add the snippet to your Astro layout</p>
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:10px;line-height:1.65;">
+              Paste this inside the <code style="background:rgba(37,99,235,0.08);color:var(--blue);padding:2px 6px;border-radius:4px;font-size:12px;">&lt;head&gt;</code> of every page
+              (or a shared layout component). Replace <code style="background:rgba(37,99,235,0.08);color:var(--blue);padding:2px 6px;border-radius:4px;font-size:12px;">G-XXXXXXXXXX</code>
+              with your real ID:
+            </p>
+            <pre id="ga-snippet" style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:12px;color:var(--text-mid);overflow-x:auto;line-height:1.7;"></pre>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:28px;height:28px;background:rgba(37,99,235,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue);flex-shrink:0;">3</div>
+          <div>
+            <p style="font-size:14px;font-weight:700;margin-bottom:4px;">Deploy and verify</p>
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.65;">
+              Push to Vercel. Then in GA4 go to
+              <strong>Reports → Realtime</strong> and open your site in a new tab —
+              you should see yourself as an active user within 30 seconds.
+            </p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:28px;height:28px;background:rgba(34,197,94,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--green-dark);flex-shrink:0;">✓</div>
+          <div>
+            <p style="font-size:14px;font-weight:700;margin-bottom:4px;">Optional: Carbon Ads setup</p>
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.65;">
+              Apply at <a href="https://www.carbonads.net" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;">carbonads.net</a> (curated, design/dev niche).
+              Once approved, paste their <code style="background:rgba(37,99,235,0.08);color:var(--blue);padding:2px 6px;border-radius:4px;font-size:12px;">&lt;script&gt;</code>
+              tag wherever you want ads to appear. Track ad earnings manually in the revenue log above.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /dash-body -->
+</div><!-- /dashboard -->
+
+<!-- ══════════════════════════════════
+     ADD ENTRY MODAL
+═══════════════════════════════════ -->
+<div class="modal-overlay" id="entry-modal">
+  <div class="modal-box">
+    <button class="modal-close" id="close-modal">✕</button>
+    <h3>Log revenue entry</h3>
+    <p class="modal-sub">Record a payment or earnings from any stream.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="entry-date">Date</label>
+        <input type="date" id="entry-date" />
+      </div>
+      <div class="form-group">
+        <label for="entry-amount">Amount (USD)</label>
+        <input type="number" id="entry-amount" placeholder="0.00" min="0" step="0.01" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="entry-stream">Revenue stream</label>
+      <select id="entry-stream">
+        <option value="sponsored">Sponsored listing</option>
+        <option value="newsletter">Newsletter sponsorship</option>
+        <option value="affiliate">Affiliate link</option>
+        <option value="jobpost">Job post fee</option>
+        <option value="ads">Ads (AdSense / Carbon)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="entry-desc">Description</label>
+      <input type="text" id="entry-desc" placeholder="e.g. Figma sponsored slot – Jan edition" />
+    </div>
+
+    <button class="modal-save-btn" id="save-entry-btn">Save entry</button>
+  </div>
+</div>
+
+<script is:inline>
+  // ── CONFIG ──────────────────────────────────────────────
+  // CHANGE THIS PASSWORD before deploying!
+  const DASHBOARD_PASSWORD = 'D7!vQ9#tL2@Xr8$Kp4Zf';
+  const STORAGE_KEY = 'dtn_dashboard_data';
+  // ────────────────────────────────────────────────────────
+
+  // ── Lock screen ──
+  const lockScreen  = document.getElementById('lock-screen');
+  const dashEl      = document.getElementById('dashboard');
+  const pwInput     = document.getElementById('password-input');
+  const unlockBtn   = document.getElementById('unlock-btn');
+  const lockError   = document.getElementById('lock-error');
+  const logoutBtn   = document.getElementById('logout-btn');
+
+  function unlock() {
+    if (pwInput.value === DASHBOARD_PASSWORD) {
+      sessionStorage.setItem('dtn_auth', '1');
+      lockScreen.style.display = 'none';
+      dashEl.style.display = 'block';
+      initDashboard();
+    } else {
+      pwInput.classList.add('error');
+      lockError.style.display = 'block';
+      setTimeout(() => pwInput.classList.remove('error'), 400);
+    }
+  }
+
+  if (sessionStorage.getItem('dtn_auth') === '1') {
+    lockScreen.style.display = 'none';
+    dashEl.style.display = 'block';
+    initDashboard();
+  }
+
+  unlockBtn.addEventListener('click', unlock);
+  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+  logoutBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('dtn_auth');
+    location.reload();
+  });
+
+  // ── Data ──
+  function loadData() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { entries: [], metrics: {} }; }
+    catch { return { entries: [], metrics: {} }; }
+  }
+
+  function saveData(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  // ── Revenue table ──
+  const streamLabels = {
+    sponsored:  { label: 'Sponsored listing',      cls: 'stream-sponsored' },
+    newsletter: { label: 'Newsletter sponsorship', cls: 'stream-newsletter' },
+    affiliate:  { label: 'Affiliate',              cls: 'stream-affiliate' },
+    jobpost:    { label: 'Job post fee',           cls: 'stream-jobpost' },
+    ads:        { label: 'Ads (AdSense/Carbon)',   cls: 'stream-ads' },
+  };
+
+  function renderTable(data) {
+    const tbody       = document.getElementById('revenue-rows');
+    const tableEl     = document.getElementById('revenue-table');
+    const emptyState  = document.getElementById('empty-state');
+    const totalsRow   = document.getElementById('totals-row');
+    const totalAmtEl  = document.getElementById('total-amount');
+    const kpiEarnings = document.getElementById('kpi-earnings');
+    const kpiSub      = document.getElementById('kpi-earnings-sub');
+    const kpiEntries  = document.getElementById('kpi-entries');
+
+    const entries = data.entries || [];
+    tbody.innerHTML = '';
+
+    if (entries.length === 0) {
+      emptyState.style.display = 'block';
+      tableEl.style.display    = 'none';
+      totalsRow.style.display  = 'none';
+      kpiEarnings.textContent  = '$0';
+      kpiSub.textContent       = 'No entries yet';
+      kpiEntries.textContent   = '0';
+      return;
+    }
+
+    emptyState.style.display = 'none';
+    tableEl.style.display    = 'table';
+    totalsRow.style.display  = 'flex';
+
+    let total = 0;
+    const sorted = [...entries].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    sorted.forEach((e, i) => {
+      total += parseFloat(e.amount) || 0;
+      const s = streamLabels[e.stream] || { label: e.stream, cls: 'stream-sponsored' };
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${e.date}</td>
+        <td><span class="stream-badge ${s.cls}">${s.label}</span></td>
+        <td>${e.description || '—'}</td>
+        <td class="amount">$${parseFloat(e.amount).toFixed(2)}</td>
+        <td><button class="del-btn" data-id="${e.id}" title="Delete">✕</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    totalAmtEl.textContent  = '$' + total.toFixed(2);
+    kpiEarnings.textContent = '$' + total.toFixed(2);
+    kpiSub.textContent      = entries.length + ' entr' + (entries.length === 1 ? 'y' : 'ies') + ' logged';
+    kpiEntries.textContent  = entries.length;
+
+    // Delete handlers
+    tbody.querySelectorAll('.del-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const d  = loadData();
+        d.entries = d.entries.filter(e => e.id !== id);
+        saveData(d);
+        renderTable(d);
+      });
+    });
+  }
+
+  // ── Manual metrics ──
+  function saveMetrics() {
+    const subs     = document.getElementById('input-subs').value;
+    const listings = document.getElementById('input-listings').value;
+    const d        = loadData();
+    d.metrics = { subs, listings };
+    saveData(d);
+    document.getElementById('kpi-subs').textContent     = subs     ? Number(subs).toLocaleString()     : '—';
+    document.getElementById('kpi-listings').textContent = listings ? Number(listings).toLocaleString() : '—';
+  }
+  window.saveMetrics = saveMetrics;
+
+  // ── Modal ──
+  const modal      = document.getElementById('entry-modal');
+  const openModal  = document.getElementById('open-modal-btn');
+  const closeModal = document.getElementById('close-modal');
+  const saveEntry  = document.getElementById('save-entry-btn');
+
+  openModal.addEventListener('click',  () => modal.classList.add('open'));
+  closeModal.addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+  saveEntry.addEventListener('click', () => {
+    const date   = document.getElementById('entry-date').value;
+    const amount = document.getElementById('entry-amount').value;
+    const stream = document.getElementById('entry-stream').value;
+    const desc   = document.getElementById('entry-desc').value;
+
+    if (!date || !amount) {
+      alert('Please fill in at least the date and amount.');
+      return;
+    }
+
+    const d = loadData();
+    d.entries.push({
+      id: Date.now().toString(),
+      date, amount, stream, description: desc
+    });
+    saveData(d);
+    renderTable(d);
+    modal.classList.remove('open');
+
+    // reset form
+    document.getElementById('entry-date').value   = '';
+    document.getElementById('entry-amount').value = '';
+    document.getElementById('entry-desc').value   = '';
+  });
+
+  // ── Init ──
+  function initDashboard() {
+    // Date
+    document.getElementById('current-date').textContent =
+      new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+
+    // Default date in modal
+    document.getElementById('entry-date').value = new Date().toISOString().split('T')[0];
+
+    // Load saved data
+    const d = loadData();
+    renderTable(d);
+
+    // Metrics
+    if (d.metrics) {
+      if (d.metrics.subs) {
+        document.getElementById('input-subs').value = d.metrics.subs;
+        document.getElementById('kpi-subs').textContent = Number(d.metrics.subs).toLocaleString();
+      }
+      if (d.metrics.listings) {
+        document.getElementById('input-listings').value = d.metrics.listings;
+        document.getElementById('kpi-listings').textContent = Number(d.metrics.listings).toLocaleString();
+      }
+    }
+
+    // GA snippet — injected via JS so Astro never tries to parse the script tags
+    const gaSnippet = document.getElementById('ga-snippet');
+    if (gaSnippet) {
+      gaSnippet.textContent = [
+        '<!-- Google Analytics 4 -->',
+        '<script async src="https://www.googletagmanager.com/gtag/js?id=G-XLJSZNT4HL"><\/script>',
+        '<script is:inline>',
+        '  window.dataLayer = window.dataLayer || [];',
+        '  function gtag(){ dataLayer.push(arguments); }',
+        '  gtag("js", new Date());',
+        '  gtag("config", "G-XLJSZNT4HL");',
+        '<\/script>'
+      ].join('\n');
+    }
+
+    // Theme toggle
+    const toggle = document.getElementById('themeToggle');
+    const html   = document.documentElement;
+    const saved  = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', saved);
+    toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+  }
+</script>
+
+</body>
+</html>
