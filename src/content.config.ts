@@ -21,6 +21,7 @@ const jobs = defineCollection({
     jobType: z.string(),
     salary: z.string().optional(),
     link: z.string().url().optional(),
+    logo: z.string().optional(),
   }),
 });
 
@@ -33,6 +34,7 @@ const news = defineCollection({
     excerpt: z.string(),
     icon: z.string().optional(),
     image: z.string().optional(),
+    link: z.string().optional(),
   }),
 });
 

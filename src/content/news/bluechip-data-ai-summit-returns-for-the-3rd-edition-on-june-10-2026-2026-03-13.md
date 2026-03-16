@@ -4,8 +4,11 @@ category: "Africa Tech"
 date: "Mar 13, 2026"
 excerpt: "Bluechip Technologies has announced the 3rd edition of the Bluechip..."
 icon: "🌍"
+link: "https://techpoint.africa/brandpress/bluechip-data-ai-summit-returns-for-the-3rd-edition-on-june-10-2026/"
 ---
 
-Bluechip Technologies has announced the 3rd edition of the Bluechip...
+This article covers the latest developments in Africa Tech.
 
-[Read full article](https://techpoint.africa/brandpress/bluechip-data-ai-summit-returns-for-the-3rd-edition-on-june-10-2026/)
+## Read More
+
+[Read the full article](https://techpoint.africa/brandpress/bluechip-data-ai-summit-returns-for-the-3rd-edition-on-june-10-2026/)

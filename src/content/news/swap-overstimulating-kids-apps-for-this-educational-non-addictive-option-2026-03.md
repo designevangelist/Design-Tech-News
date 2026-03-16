@@ -4,8 +4,11 @@ category: "Tools"
 date: "Mar 15, 2026"
 excerpt: "Guilt-free screen time for kids exists thanks to this lifetime subscription to Pok Pok, on sale now for $44.97 with code PLAY through March 22."
 icon: "🛠️"
+link: "https://mashable.com/article/march-15-pok-pok-lifetime-subscription"
 ---
 
 Guilt-free screen time for kids exists thanks to this lifetime subscription to Pok Pok, on sale now for $44.97 with code PLAY through March 22.
 
-[Read full article](https://mashable.com/article/march-15-pok-pok-lifetime-subscription)
+## Read More
+
+[Read the full article](https://mashable.com/article/march-15-pok-pok-lifetime-subscription)

@@ -4,8 +4,11 @@ category: "AI Design"
 date: "Mar 13, 2026"
 excerpt: "Latest news from the design and tech ecosystem."
 icon: "🎨"
+link: "https://uxdesign.cc/the-hidden-cost-of-ai-design-tools-what-were-outsourcing-without-noticing-9057db75aaf9?source=rss----138adf9c44c---4"
 ---
 
-Latest news from the design and tech ecosystem.
+This article covers the latest developments in AI Design.
 
-[Read full article](https://uxdesign.cc/the-hidden-cost-of-ai-design-tools-what-were-outsourcing-without-noticing-9057db75aaf9?source=rss----138adf9c44c---4)
+## Read More
+
+[Read the full article](https://uxdesign.cc/the-hidden-cost-of-ai-design-tools-what-were-outsourcing-without-noticing-9057db75aaf9?source=rss----138adf9c44c---4)

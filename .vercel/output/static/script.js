@@ -41,7 +41,6 @@ if (mobileClose) {
   });
 }
 
-// Close mobile nav on link click
 document.querySelectorAll('.mobile-nav a').forEach(link => {
   link.addEventListener('click', () => {
     hamburger && hamburger.classList.remove('open');
@@ -49,6 +48,73 @@ document.querySelectorAll('.mobile-nav a').forEach(link => {
     document.body.style.overflow = '';
   });
 });
+
+// ===== PAGINATION =====
+function initPagination(containerSelector, itemSelector, perPage = 12) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+
+  let currentPage = 1;
+
+  function getAllItems() {
+    return Array.from(container.querySelectorAll(itemSelector));
+  }
+
+  function getVisibleItems() {
+    return getAllItems().filter(item => !item.hasAttribute('data-filter-hidden'));
+  }
+
+  function showPage(page) {
+    const visibleItems = getVisibleItems();
+    const totalPages = Math.max(Math.ceil(visibleItems.length / perPage), 1);
+    currentPage = Math.min(Math.max(page, 1), totalPages);
+
+    getAllItems().forEach(item => item.setAttribute('data-page-hidden', 'true'));
+
+    const start = (currentPage - 1) * perPage;
+    const end = start + perPage;
+    visibleItems.slice(start, end).forEach(item => item.removeAttribute('data-page-hidden'));
+
+    updateControls(totalPages);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateControls(totalPages) {
+    const ctrl = document.getElementById(`pagination-ctrl-${containerSelector.replace(/[^a-z0-9]/gi, '')}`);
+    if (!ctrl) return;
+    ctrl.querySelector('.page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+    ctrl.querySelector('.btn-prev').disabled = currentPage <= 1;
+    ctrl.querySelector('.btn-next').disabled = currentPage >= totalPages;
+    ctrl.style.display = totalPages <= 1 ? 'none' : 'flex';
+  }
+
+  const ctrlId = `pagination-ctrl-${containerSelector.replace(/[^a-z0-9]/gi, '')}`;
+  const ctrl = document.createElement('div');
+  ctrl.className = 'pagination-controls';
+  ctrl.id = ctrlId;
+  ctrl.innerHTML = `
+    <button class="btn-prev pagination-btn">← Previous</button>
+    <span class="page-info">Page 1 of 1</span>
+    <button class="btn-next pagination-btn">Next →</button>
+  `;
+  container.parentNode.insertBefore(ctrl, container.nextSibling);
+
+  ctrl.querySelector('.btn-prev').addEventListener('click', () => {
+    if (currentPage > 1) showPage(currentPage - 1);
+  });
+  ctrl.querySelector('.btn-next').addEventListener('click', () => {
+    const total = Math.ceil(getVisibleItems().length / perPage);
+    if (currentPage < total) showPage(currentPage + 1);
+  });
+
+  const style = document.createElement('style');
+  style.textContent = `[data-page-hidden="true"] { display: none !important; }`;
+  document.head.appendChild(style);
+
+  container._resetPagination = () => showPage(1);
+
+  showPage(1);
+}
 
 // ===== FILTER BUTTONS =====
 document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -63,28 +129,34 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     const cards = container.querySelectorAll('article');
 
     const keywords = {
-      // Jobs
-      design: ['design', 'designer', 'ui', 'ux', 'brand', 'visual'],
-      engineering: ['engineer', 'developer', 'frontend', 'backend', 'ios', 'android', 'software', 'fullstack'],
-      product: ['product manager', 'product owner', 'pm '],
-      data: ['data', 'ml', 'machine learning', 'ai ', 'analyst'],
-      // News
-      'ai design': ['figma', 'adobe', 'ai', 'firefly', 'copilot', 'claude', 'gpt', 'design tool'],
-      'africa tech': ['africa', 'african', 'nigeria', 'kenya', 'ghana', 'lagos', 'nairobi', 'moniepoint', 'wave', 'flutterwave'],
-      'tools': ['vercel', 'github', 'linear', 'tool', 'launch', 'release', 'update', 'introduces', 'integrat'],
+      design: ['product designer', 'ui designer', 'ux designer', 'ui/ux', 'graphic designer', 'brand designer', 'visual designer', 'web designer', 'motion designer', 'design lead', 'head of design', 'creative director'],
+      engineering: ['engineer', 'developer', 'frontend', 'backend', 'fullstack', 'full-stack', 'full stack', 'ios developer', 'android developer', 'software developer', 'web developer', 'devops', 'python', 'java ', 'react developer', 'node developer'],
+      product: ['product manager', 'product owner', 'head of product', 'vp of product', 'director of product'],
+      data: ['data analyst', 'data scientist', 'data engineer', 'machine learning', 'ml engineer', 'ai engineer', 'analytics'],
+      'ai design': ['figma', 'adobe', 'firefly', 'copilot', 'claude', 'gpt', 'design tool', 'ai design', 'ux tool'],
+      'africa tech': ['africa', 'african', 'nigeria', 'kenya', 'ghana', 'lagos', 'nairobi', 'moniepoint', 'wave', 'flutterwave', 'paystack'],
+      'tools': ['vercel', 'github', 'linear', 'tool', 'launch', 'release', 'introduces', 'integrat', 'new feature'],
       'startups': ['startup', 'arr', 'saas', 'enterprise', 'unicorn', 'raises', 'series', 'funding'],
       'funding': ['raises', 'funding', 'million', 'series', 'investment', 'round'],
     };
 
     cards.forEach(card => {
       if (filter === 'all') {
-        card.style.display = '';
-        return;
+        card.removeAttribute('data-filter-hidden');
+      } else {
+        const title = card.querySelector('h3, h4')?.textContent.toLowerCase() || '';
+        const matches = keywords[filter]?.some(kw => title.includes(kw));
+        if (matches) {
+          card.removeAttribute('data-filter-hidden');
+        } else {
+          card.setAttribute('data-filter-hidden', 'true');
+        }
       }
-      const title = card.querySelector('h3, h4')?.textContent.toLowerCase() || '';
-      const matches = keywords[filter]?.some(kw => title.includes(kw));
-      card.style.display = matches ? '' : 'none';
     });
+
+    setTimeout(() => {
+      if (container._resetPagination) container._resetPagination();
+    }, 50);
   });
 });
 
@@ -103,11 +175,14 @@ if (searchInput) {
       cards.forEach(card => {
         const text = card.textContent.toLowerCase();
         const matches = query === '' || text.includes(query);
-        card.style.display = matches ? '' : 'none';
-        if (matches) visibleCount++;
+        if (matches) {
+          card.removeAttribute('data-filter-hidden');
+          visibleCount++;
+        } else {
+          card.setAttribute('data-filter-hidden', 'true');
+        }
       });
 
-      // Show no results message
       let noResults = document.getElementById('no-results');
       if (!noResults) {
         noResults = document.createElement('p');
@@ -118,7 +193,11 @@ if (searchInput) {
       }
       noResults.style.display = visibleCount === 0 && query !== '' ? 'block' : 'none';
 
-      // Update pagination if active
+      const container = searchInput.closest('.container')?.querySelector('.card-grid, .jobs-list');
+      if (container?._resetPagination) {
+        setTimeout(() => container._resetPagination(), 50);
+      }
+
       const paginationCtrl = document.querySelector('.pagination-controls');
       if (paginationCtrl) {
         paginationCtrl.style.display = query === '' ? 'flex' : 'none';
@@ -128,7 +207,7 @@ if (searchInput) {
 }
 
 // ===== NEWSLETTER FORM =====
-const newsletterForms = document.querySelectorAll('.newsletter-form');
+const newsletterForms = document.querySelectorAll('.newsletter-form:not(#mc-form):not(.newsletter-sub)');
 newsletterForms.forEach(form => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -146,7 +225,7 @@ newsletterForms.forEach(form => {
   });
 });
 
-// ===== MAILCHIMP AJAX =====
+// ===== MAILCHIMP AJAX - HOMEPAGE =====
 document.addEventListener('DOMContentLoaded', () => {
   const mcForm = document.getElementById('mc-form');
   if (mcForm) {
@@ -154,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const email = document.getElementById('mc-email').value;
       const btn = document.getElementById('mc-btn');
-      
+
       btn.textContent = 'Subscribing...';
       btn.disabled = true;
 
@@ -197,9 +276,7 @@ document.querySelectorAll('.newsletter-sub').forEach(form => {
       document.body.removeChild(script);
       btn.textContent = '✓ Subscribed!';
       btn.style.background = '#16A34A';
-      if (successDiv) {
-        successDiv.style.display = 'flex';
-      }
+      if (successDiv) successDiv.style.display = 'flex';
     };
   });
 });
@@ -230,57 +307,7 @@ document.querySelectorAll('.card, .job-card, .news-card').forEach(el => {
   observer.observe(el);
 });
 
-// ===== PAGINATION =====
-function initPagination(containerSelector, itemSelector, perPage = 12) {
-  const container = document.querySelector(containerSelector);
-  if (!container) return;
-
-  const items = Array.from(container.querySelectorAll(itemSelector));
-  if (items.length <= perPage) return;
-
-  let currentPage = 1;
-  const totalPages = Math.ceil(items.length / perPage);
-
-  function showPage(page) {
-    const start = (page - 1) * perPage;
-    const end = start + perPage;
-    items.forEach((item, i) => {
-      item.style.display = i >= start && i < end ? '' : 'none';
-    });
-    updateControls();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function updateControls() {
-    const ctrl = document.querySelector(`${containerSelector}-pagination`);
-    if (!ctrl) return;
-    ctrl.querySelector('.page-info').textContent = `Page ${currentPage} of ${totalPages}`;
-    ctrl.querySelector('.btn-prev').disabled = currentPage === 1;
-    ctrl.querySelector('.btn-next').disabled = currentPage === totalPages;
-  }
-
-  // Create pagination controls
-  const ctrl = document.createElement('div');
-  ctrl.className = 'pagination-controls';
-  ctrl.setAttribute('id', `${containerSelector.replace('.', '')}-pagination`);
-  ctrl.innerHTML = `
-    <button class="btn-prev pagination-btn">← Previous</button>
-    <span class="page-info">Page 1 of ${totalPages}</span>
-    <button class="btn-next pagination-btn">Next →</button>
-  `;
-  container.parentNode.insertBefore(ctrl, container.nextSibling);
-
-  ctrl.querySelector('.btn-prev').addEventListener('click', () => {
-    if (currentPage > 1) { currentPage--; showPage(currentPage); }
-  });
-  ctrl.querySelector('.btn-next').addEventListener('click', () => {
-    if (currentPage < totalPages) { currentPage++; showPage(currentPage); }
-  });
-
-  showPage(1);
-}
-
-// Init pagination on jobs and news pages
+// ===== INIT PAGINATION =====
 document.addEventListener('DOMContentLoaded', () => {
   initPagination('.card-grid', '.news-card', 12);
   initPagination('.jobs-list', '.job-card-v', 12);

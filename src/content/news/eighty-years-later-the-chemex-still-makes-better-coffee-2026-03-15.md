@@ -4,8 +4,11 @@ category: "AI Design"
 date: "Mar 15, 2026"
 excerpt: "The iconic hourglass pour-over brewer proves great design never goes out of style."
 icon: "🤖"
+link: "https://www.wired.com/story/chemex-makes-every-other-coffee-maker-seem-tacky/"
 ---
 
-The iconic hourglass pour-over brewer proves great design never goes out of style.
+This article covers the latest developments in AI Design.
 
-[Read full article](https://www.wired.com/story/chemex-makes-every-other-coffee-maker-seem-tacky/)
+## Read More
+
+[Read the full article](https://www.wired.com/story/chemex-makes-every-other-coffee-maker-seem-tacky/)

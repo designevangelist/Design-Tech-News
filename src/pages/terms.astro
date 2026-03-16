@@ -1,0 +1,718 @@
+---
+// src/pages/terms.astro
+---
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service – DesignTechNews</title>
+  <meta name="description" content="Terms of Service for DesignTechNews. Read our terms governing your use of the site." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <style>
+    /* ── Legal page layout (same as privacy.astro) ── */
+    .legal-hero {
+      padding: 72px 0 48px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .legal-hero::before {
+      content: '';
+      position: absolute;
+      top: -160px; right: -160px;
+      width: 480px; height: 480px;
+      background: radial-gradient(ellipse, rgba(34,197,94,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .legal-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      margin-bottom: 20px;
+    }
+
+    [data-theme="dark"] .legal-eyebrow {
+      color: var(--green);
+    }
+
+    .legal-hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .legal-hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ── Two-column layout ── */
+    .legal-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 64px;
+      padding: 64px 0 96px;
+      align-items: start;
+    }
+
+    /* ── Sticky TOC sidebar ── */
+    .legal-toc {
+      position: sticky;
+      top: 88px;
+    }
+
+    .legal-toc h6 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+      margin-left: -2px;
+    }
+
+    .toc-list a:hover {
+      color: var(--green-dark);
+      background: rgba(34,197,94,0.07);
+      border-left-color: var(--green);
+      padding-left: 16px;
+    }
+
+    [data-theme="dark"] .toc-list a:hover {
+      color: var(--green);
+    }
+
+    /* ── Legal content ── */
+    .legal-content { min-width: 0; }
+
+    .legal-section {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .legal-section:first-child { padding-top: 0; }
+    .legal-section:last-child { border-bottom: none; }
+
+    .legal-section h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .legal-section h2 .section-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: rgba(34,197,94,0.1);
+      color: var(--green-dark);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    [data-theme="dark"] .legal-section h2 .section-num {
+      color: var(--green);
+    }
+
+    .legal-section p {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+
+    .legal-section p:last-child { margin-bottom: 0; }
+
+    .legal-section h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 24px 0 10px;
+    }
+
+    .legal-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 12px 0 20px;
+      padding: 0;
+    }
+
+    .legal-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    .legal-list li::before {
+      content: '→';
+      color: var(--green-dark);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: 12px;
+    }
+
+    [data-theme="dark"] .legal-list li::before {
+      color: var(--green);
+    }
+
+    .legal-highlight {
+      background: rgba(34,197,94,0.05);
+      border: 1px solid rgba(34,197,94,0.15);
+      border-left: 3px solid var(--green);
+      border-radius: 0 10px 10px 0;
+      padding: 18px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    [data-theme="dark"] .legal-highlight {
+      background: rgba(34,197,94,0.06);
+      border-color: rgba(34,197,94,0.15);
+    }
+
+    .legal-warning {
+      background: rgba(239,68,68,0.05);
+      border: 1px solid rgba(239,68,68,0.15);
+      border-left: 3px solid #EF4444;
+      border-radius: 0 10px 10px 0;
+      padding: 18px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    .legal-contact-box {
+      background: linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(37,99,235,0.04) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-top: 16px;
+    }
+
+    .legal-contact-box h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .legal-contact-box p { margin-bottom: 8px !important; }
+
+    .legal-contact-box a {
+      color: var(--blue);
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    .legal-contact-box a:hover { opacity: 0.75; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .legal-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 40px 0 64px;
+      }
+
+      .legal-toc {
+        position: static;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px;
+        margin-bottom: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOBILE NAV OVERLAY -->
+<nav class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
+  <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
+  <a href="/">Home</a>
+  <a href="/opportunities">Opportunities</a>
+  <a href="/jobs">Jobs</a>
+  <a href="/news">News</a>
+  <a href="/about">About</a>
+</nav>
+
+<!-- HEADER -->
+<header>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">
+        <img src="/images/light-logo.png" alt="DesignTechNews" class="logo-img logo-light" />
+        <img src="/images/dark-logo.png" alt="DesignTechNews" class="logo-img logo-dark" />
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/opportunities">Opportunities</a></li>
+        <li><a href="/jobs">Jobs</a></li>
+        <li><a href="/news">News</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a href="/#newsletter" class="btn-subscribe">Subscribe</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="legal-hero">
+    <div class="container">
+      <div class="breadcrumb" style="margin-bottom:20px;">
+        <a href="/">Home</a>
+        <span class="sep"> / </span>
+        <span class="current">Terms of Service</span>
+      </div>
+      <span class="legal-eyebrow">📋 Legal</span>
+      <h1>Terms of Service</h1>
+      <div class="legal-hero-meta">
+        <span>📅 Effective Date: March 12, 2026</span>
+        <span>🔄 Last Updated: March 12, 2026</span>
+        <span>🌍 Applies Globally</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="container">
+    <div class="legal-layout">
+
+      <!-- SIDEBAR TOC -->
+      <aside class="legal-toc">
+        <h6>On This Page</h6>
+        <ul class="toc-list">
+          <li><a href="#acceptance">Acceptance of Terms</a></li>
+          <li><a href="#about-service">About the Service</a></li>
+          <li><a href="#eligibility">Eligibility</a></li>
+          <li><a href="#permitted-use">Permitted Use</a></li>
+          <li><a href="#prohibited">Prohibited Conduct</a></li>
+          <li><a href="#content">Content & Submissions</a></li>
+          <li><a href="#ip">Intellectual Property</a></li>
+          <li><a href="#third-party">Third-Party Links</a></li>
+          <li><a href="#newsletter-terms">Newsletter</a></li>
+          <li><a href="#disclaimer">Disclaimer</a></li>
+          <li><a href="#liability">Limitation of Liability</a></li>
+          <li><a href="#indemnification">Indemnification</a></li>
+          <li><a href="#governing-law">Governing Law</a></li>
+          <li><a href="#changes">Changes to Terms</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <article class="legal-content">
+
+        <div class="legal-section" id="acceptance">
+          <h2><span class="section-num">01</span> Acceptance of Terms</h2>
+          <p>
+            These Terms of Service ("Terms") govern your access to and use of <strong>Design Tech News</strong>
+            ("we," "us," or "our"), including all content, features, and services available at
+            <strong>designtechnews.vercel.app</strong> and any associated pages or communications.
+          </p>
+          <p>
+            By accessing or using the site in any way — including browsing, subscribing to the
+            newsletter, or submitting content — you confirm that you have read, understood, and
+            agree to be bound by these Terms and our <a href="/privacy" style="color:var(--blue);font-weight:600;">Privacy Policy</a>.
+          </p>
+          <div class="legal-highlight">
+            If you do not agree to these Terms, you must immediately stop using Design Tech News.
+          </div>
+        </div>
+
+        <div class="legal-section" id="about-service">
+          <h2><span class="section-num">02</span> About the Service</h2>
+          <p>
+            Design Tech News is a free-to-access digital publication and resource platform for
+            designers, developers, and creative professionals. We curate and publish:
+          </p>
+          <ul class="legal-list">
+            <li>Design and technology opportunities (scholarships, fellowships, accelerators, competitions)</li>
+            <li>Technology job listings from third-party employers</li>
+            <li>Industry news, articles, and editorial content</li>
+            <li>A free weekly newsletter</li>
+          </ul>
+          <p>
+            We reserve the right to modify, suspend, or discontinue any part of the service at any
+            time without prior notice or liability.
+          </p>
+        </div>
+
+        <div class="legal-section" id="eligibility">
+          <h2><span class="section-num">03</span> Eligibility</h2>
+          <p>
+            You must be at least <strong>13 years of age</strong> (or 16 in the EU/UK) to use this
+            site. By using Design Tech News, you represent and warrant that you meet this age
+            requirement and that you have the legal capacity to enter into these Terms.
+          </p>
+          <p>
+            If you are using the site on behalf of an organisation, you represent that you have
+            the authority to bind that organisation to these Terms.
+          </p>
+        </div>
+
+        <div class="legal-section" id="permitted-use">
+          <h2><span class="section-num">04</span> Permitted Use</h2>
+          <p>You are granted a limited, non-exclusive, non-transferable licence to:</p>
+          <ul class="legal-list">
+            <li>Access and browse the site for personal, non-commercial informational purposes.</li>
+            <li>Subscribe to and read the newsletter for personal use.</li>
+            <li>Share links to content on Design Tech News with proper attribution.</li>
+            <li>Submit opportunities or job listings via our designated submission forms.</li>
+          </ul>
+          <p>Any use beyond the above requires prior written permission from us.</p>
+        </div>
+
+        <div class="legal-section" id="prohibited">
+          <h2><span class="section-num">05</span> Prohibited Conduct</h2>
+          <p>You agree not to:</p>
+          <ul class="legal-list">
+            <li>Reproduce, copy, scrape, or systematically extract content from the site without permission.</li>
+            <li>Use the site for any unlawful purpose or in violation of applicable laws.</li>
+            <li>Attempt to gain unauthorised access to any part of the site, servers, or databases.</li>
+            <li>Submit false, misleading, or fraudulent opportunity or job listings.</li>
+            <li>Transmit spam, malware, or any harmful code via the site or our contact channels.</li>
+            <li>Impersonate Design Tech News, our team, or any other person or entity.</li>
+            <li>Use the site to collect personal information about other users without consent.</li>
+            <li>Engage in any conduct that restricts or inhibits anyone's use or enjoyment of the site.</li>
+          </ul>
+          <div class="legal-warning">
+            Violation of these prohibitions may result in immediate termination of your access
+            and may expose you to civil or criminal liability.
+          </div>
+        </div>
+
+        <div class="legal-section" id="content">
+          <h2><span class="section-num">06</span> Content & User Submissions</h2>
+
+          <h3>Our Content</h3>
+          <p>
+            All editorial content, designs, graphics, and original written material on Design Tech
+            News is our property or licensed to us. It is protected by copyright and other
+            intellectual property laws.
+          </p>
+
+          <h3>Third-Party Content</h3>
+          <p>
+            Job listings, opportunity details, and external news articles are sourced from or
+            provided by third parties. We do not guarantee the accuracy, completeness, or
+            availability of this content. We are not responsible for any decisions you make
+            based on third-party listings.
+          </p>
+
+          <h3>Your Submissions</h3>
+          <p>
+            If you submit an opportunity, job listing, or any other content to Design Tech News,
+            you grant us a non-exclusive, royalty-free, worldwide licence to publish, edit, and
+            display that content on our platform. You represent that you have the rights to
+            submit such content and that it does not violate any third-party rights or laws.
+          </p>
+          <p>
+            We reserve the right to reject, edit, or remove any submission at our discretion,
+            including content that is inaccurate, inappropriate, or duplicated.
+          </p>
+        </div>
+
+        <div class="legal-section" id="ip">
+          <h2><span class="section-num">07</span> Intellectual Property</h2>
+          <p>
+            The Design Tech News name, logo, branding, website design, and all original content
+            are the intellectual property of Design Tech News and are protected under applicable
+            copyright, trademark, and other IP laws.
+          </p>
+          <p>
+            You may not use our name, logo, or brand assets without prior written consent.
+            Unauthorised reproduction or distribution of our content is strictly prohibited.
+          </p>
+          <p>
+            We respect the intellectual property of others. If you believe any content on this
+            site infringes your copyright, please contact us at
+            <a href="mailto:designevangelist1@gmail.com" style="color:var(--blue);font-weight:600;">
+              designevangelist1@gmail.com
+            </a> with a description of the alleged infringement.
+          </p>
+        </div>
+
+        <div class="legal-section" id="third-party">
+          <h2><span class="section-num">08</span> Third-Party Links & Services</h2>
+          <p>
+            Design Tech News contains links to third-party websites, job boards, and opportunity
+            portals that are not owned or controlled by us. These links are provided for your
+            convenience only.
+          </p>
+          <p>
+            We have no control over and assume no responsibility for the content, privacy policies,
+            or practices of any third-party sites. We encourage you to review the terms and privacy
+            policies of any external site you visit.
+          </p>
+          <p>
+            Inclusion of any third-party link does not imply endorsement, sponsorship, or
+            affiliation with that site or organisation.
+          </p>
+        </div>
+
+        <div class="legal-section" id="newsletter-terms">
+          <h2><span class="section-num">09</span> Newsletter</h2>
+          <p>
+            By subscribing to the Design Tech News newsletter, you agree to receive periodic
+            emails containing curated opportunities, jobs, and news. You may unsubscribe at any
+            time by clicking the unsubscribe link included in every email.
+          </p>
+          <p>
+            We will not use your email address for purposes beyond the newsletter and site-related
+            communications, and we will never sell your email address to third parties.
+          </p>
+          <p>
+            Subscription and email management is handled via <strong>Mailchimp</strong>. By
+            subscribing, you also agree to Mailchimp's terms of service and privacy policy.
+          </p>
+        </div>
+
+        <div class="legal-section" id="disclaimer">
+          <h2><span class="section-num">10</span> Disclaimer of Warranties</h2>
+          <p>
+            Design Tech News is provided on an <strong>"as is" and "as available"</strong> basis,
+            without warranties of any kind, either express or implied. We do not warrant that:
+          </p>
+          <ul class="legal-list">
+            <li>The site will be uninterrupted, error-free, or secure at all times.</li>
+            <li>Any information on the site is accurate, complete, or up to date.</li>
+            <li>Job listings or opportunities are still open or as described by the listing party.</li>
+            <li>The site is free from viruses or other harmful components.</li>
+          </ul>
+          <div class="legal-warning">
+            <strong>Important:</strong> Opportunity and job listings on Design Tech News are
+            aggregated from public sources and submissions. We do not verify the legitimacy of
+            every listing. Always conduct your own due diligence before applying or sharing
+            personal information with external organisations.
+          </div>
+        </div>
+
+        <div class="legal-section" id="liability">
+          <h2><span class="section-num">11</span> Limitation of Liability</h2>
+          <p>
+            To the fullest extent permitted by applicable law, Design Tech News and its owners,
+            editors, and contributors shall not be liable for any indirect, incidental, special,
+            consequential, or punitive damages arising out of or relating to your use of the site,
+            including but not limited to:
+          </p>
+          <ul class="legal-list">
+            <li>Loss of data, revenue, or profits.</li>
+            <li>Reliance on any content, listing, or information published on the site.</li>
+            <li>Unauthorised access to your data or transmissions.</li>
+            <li>Conduct of third parties linked to from the site.</li>
+          </ul>
+          <p>
+            Our total liability to you for any claim arising from use of the site shall not
+            exceed the amount you have paid us in the 12 months preceding the claim (which, for
+            free users, is zero).
+          </p>
+        </div>
+
+        <div class="legal-section" id="indemnification">
+          <h2><span class="section-num">12</span> Indemnification</h2>
+          <p>
+            You agree to indemnify, defend, and hold harmless Design Tech News, its owners,
+            editors, and contributors from and against any claims, damages, losses, liabilities,
+            costs, and expenses (including reasonable legal fees) arising out of or related to:
+          </p>
+          <ul class="legal-list">
+            <li>Your use of the site in violation of these Terms.</li>
+            <li>Any content you submit, post, or transmit through the site.</li>
+            <li>Your violation of any applicable law or third-party rights.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section" id="governing-law">
+          <h2><span class="section-num">13</span> Governing Law & Disputes</h2>
+          <p>
+            These Terms are governed by and construed in accordance with applicable law. Given
+            our global audience, we aim to comply with internationally recognised standards
+            including GDPR (EU/UK), CCPA (California), PIPEDA (Canada), and the NDPR (Nigeria).
+          </p>
+          <p>
+            Any dispute arising from these Terms or your use of the site should first be raised
+            informally by contacting us at
+            <a href="mailto:designevangelist1@gmail.com" style="color:var(--blue);font-weight:600;">
+              designevangelist1@gmail.com
+            </a>.
+            We will make every effort to resolve disputes amicably within 30 days.
+          </p>
+          <p>
+            If a dispute cannot be resolved informally, it shall be submitted to binding
+            arbitration or resolved in a competent court of jurisdiction applicable to the
+            parties involved.
+          </p>
+        </div>
+
+        <div class="legal-section" id="changes">
+          <h2><span class="section-num">14</span> Changes to These Terms</h2>
+          <p>
+            We reserve the right to update these Terms of Service at any time. When we make
+            material changes, we will update the "Last Updated" date at the top of this page.
+            We may also notify newsletter subscribers of significant changes.
+          </p>
+          <p>
+            Your continued use of the site after any changes are posted constitutes your
+            acceptance of the revised Terms. If you do not agree to the revised Terms, you
+            must stop using the site.
+          </p>
+        </div>
+
+        <div class="legal-section" id="contact">
+          <h2><span class="section-num">15</span> Contact Us</h2>
+          <p>
+            If you have any questions about these Terms of Service or wish to report a violation,
+            please reach out to us:
+          </p>
+          <div class="legal-contact-box">
+            <h4>Design Tech News — Legal</h4>
+            <p>📧 Email: <a href="mailto:designevangelist1@gmail.com">designevangelist1@gmail.com</a></p>
+            <p>🌐 Website: <a href="https://designtechnews.vercel.app">designtechnews.vercel.app</a></p>
+            <p style="margin-top:12px;font-size:13px;color:var(--text-muted);">
+              We aim to respond to all legal enquiries within <strong>30 days</strong>.
+              For urgent matters, please mark your subject line "Legal – Terms of Service."
+            </p>
+          </div>
+        </div>
+
+      </article>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <img src="/images/dark-logo.png" alt="DesignTechNews" class="logo-img" />
+        </a>
+        <p>Discover design and technology opportunities across Africa and the global tech ecosystem.</p>
+        <div class="social-links">
+          <a href="https://x.com/DesignTechNews1" class="social-link" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://linkedin.com/company/designtechnews" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/designtechnews_hq" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+          <a href="https://youtube.com/@designtechnews" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61581591368952" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <ul class="footer-links">
+          <li><a href="/opportunities">Opportunities</a></li>
+          <li><a href="/jobs">Tech Jobs</a></li>
+          <li><a href="/news">News</a></li>
+          <li><a href="/#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Categories</h5>
+        <ul class="footer-links">
+          <li><a href="/opportunities">Scholarships</a></li>
+          <li><a href="/opportunities">Fellowships</a></li>
+          <li><a href="/opportunities">Accelerators</a></li>
+          <li><a href="/opportunities">Competitions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul class="footer-links">
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/about?submit=true">Submit Opportunity</a></li>
+          <li><a href="/about#advertise">Advertise</a></li>
+          <li><a href="/about#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 DesignTechNews. All rights reserved.</span>
+      <span style="display:flex;gap:20px;">
+        <a href="/privacy" style="color:white;">Privacy Policy</a>
+        <a href="/terms" style="color:white;">Terms of Service</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script src="/script.js" is:inline></script>
+</body>
+</html>

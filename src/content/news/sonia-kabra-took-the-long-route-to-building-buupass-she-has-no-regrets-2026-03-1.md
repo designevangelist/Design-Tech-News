@@ -4,8 +4,11 @@ category: "Africa Tech"
 date: "Mar 13, 2026"
 excerpt: "Her story begins far from Nairobi. Kabra grew up in Jalgaon, a small town in India, where, she says, entrepreneurship was simply how people lived."
 icon: "🌍"
+link: "https://techcabal.com/2026/03/13/sonia-kabra-journey-india-african-buupass/"
 ---
 
 Her story begins far from Nairobi. Kabra grew up in Jalgaon, a small town in India, where, she says, entrepreneurship was simply how people lived.
 
-[Read full article](https://techcabal.com/2026/03/13/sonia-kabra-journey-india-african-buupass/)
+## Read More
+
+[Read the full article](https://techcabal.com/2026/03/13/sonia-kabra-journey-india-african-buupass/)

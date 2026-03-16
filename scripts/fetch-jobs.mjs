@@ -167,14 +167,15 @@ async function fetchJobs() {
     const jobType = job.jobTypeLabel || formatJobType(job.job_type);
     const location = job.candidate_required_location || 'Remote';
     const salary = job.salary || '';
-    const body = job.description ? stripHtml(job.description).substring(0, 1000) : 'Visit the company careers page for full job description.';
+const body = job.description ? stripHtml(job.description).substring(0, 5000) : `## About This Role\n\nThis is a ${jobType} position at ${job.company_name} based in ${location}.\n\n## How to Apply\n\nClick the Apply button to visit the company careers page for the full job description and to submit your application.`;
 
-    const content = `---
+const content = `---
 title: "${job.title.replace(/"/g, "'")}"
 company: "${job.company_name.replace(/"/g, "'")}"
 location: "${location}"
 jobType: "${jobType}"
 ${salary ? `salary: "${salary}"` : ''}
+${job.company_logo ? `logo: "${job.company_logo}"` : ''}
 link: "${job.url}"
 ---
 

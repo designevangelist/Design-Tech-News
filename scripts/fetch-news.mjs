@@ -144,17 +144,24 @@ async function fetchNews() {
         const date = formatDate(item.pubDate);
         const excerpt = (item.description.substring(0, 200) || 'Latest news from the design and tech ecosystem.').replace(/"/g, "'");
 
-        const content = `---
+        const body = item.description && item.description.length > 100
+  ? item.description
+  : `This article covers the latest developments in ${feed.category}.`;
+
+const content = `---
 title: "${item.title.replace(/"/g, "'")}"
 category: "${feed.category}"
 date: "${date}"
 excerpt: "${excerpt}"
 icon: "${feed.icon}"
+link: "${item.link}"
 ---
 
-${item.description || excerpt}
+${body}
 
-[Read full article](${item.link})
+## Read More
+
+[Read the full article](${item.link})
 `;
 
         fs.writeFileSync(path.join('src/content/news', `${slug}.md`), content, 'utf-8');
