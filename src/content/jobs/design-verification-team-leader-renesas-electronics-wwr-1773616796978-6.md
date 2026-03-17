@@ -3,7 +3,7 @@ title: "Design Verification Team Leader"
 company: "Renesas Electronics"
 location: "Remote"
 jobType: "Engineering"
-
+sponsored: true
 
 link: "https://weworkremotely.com/remote-jobs/renesas-electronics-design-verification-team-leader"
 ---

@@ -626,7 +626,8 @@
   </div>
 </section>
 
-<!-- ADVERTISE -->
+
+<!-- ADVERTISE — replace the existing .advertise-box content with this -->
 <section class="advertise-section" id="advertise">
   <div class="container">
     <div class="advertise-box">
@@ -644,13 +645,22 @@
             <p class="label">Countries</p>
           </div>
           <div class="advertise-stat">
-            <p class="num">200+</p>
-            <p class="label">Active Opportunities</p>
+            <p class="num">62%</p>
+            <p class="label">Email Open Rate</p>
           </div>
         </div>
-        <a href="mailto:designevangelist1@gmail.com?subject=Advertising on DesignTechNews" class="btn-primary" style="display:inline-flex;">
-          Get in Touch →
-        </a>
+        <!-- Updated buttons — link to /sponsor page -->
+        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+          <a href="/sponsor" class="btn-primary" style="display:inline-flex;">
+            View Sponsor Packages →
+          </a>
+          <a href="mailto:designevangelist1@gmail.com?subject=Advertising on DesignTechNews"
+            style="display:inline-flex;align-items:center;gap:6px;padding:13px 24px;border:1.5px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.75);border-radius:var(--radius-sm);font-weight:600;font-size:15px;transition:all 0.2s;"
+            onmouseover="this.style.borderColor='rgba(255,255,255,0.6)';this.style.color='white'"
+            onmouseout="this.style.borderColor='rgba(255,255,255,0.25)';this.style.color='rgba(255,255,255,0.75)'">
+            Email Us Directly
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -784,7 +794,7 @@
         <ul class="footer-links">
           <li><a href="/about">About Us</a></li>
           <li><a href="/about#contact">Contact</a></li>
-          <li><a href="/about#advertise">Advertise</a></li>
+          <li><a href="/sponsor">Advertise</a></li>
           <li><a href="/about?submit=true">Submit Opportunity</a></li>
         </ul>
       </div>

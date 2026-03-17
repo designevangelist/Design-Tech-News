@@ -9,6 +9,7 @@ const opportunities = defineCollection({
     type: z.string(),
     location: z.string(),
     description: z.string(),
+    sponsored: z.boolean().optional()
   }),
 });
 
@@ -22,6 +23,7 @@ const jobs = defineCollection({
     salary: z.string().optional(),
     link: z.string().url().optional(),
     logo: z.string().optional(),
+    sponsored: z.boolean().optional()
   }),
 });
 

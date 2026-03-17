@@ -3,6 +3,7 @@ title: "Africa Deep Tech Challenge 2025"
 type: "Competition"
 location: "Pan-Africa (Remote)"
 deadline: "July 31, 2025"
+sponsored: true
 description: "A pan-African competition powered by Future Africa awarding $20,000 in prizes to innovators building resource-constrained computing solutions."
 ---
 

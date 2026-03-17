@@ -3,7 +3,7 @@ title: "Data Scientist (L5) - Content Promotion &amp; Discovery Performance"
 company: "Netflix"
 location: "Remote"
 jobType: "Engineering"
-
+sponsored: true
 
 link: "https://weworkremotely.com/remote-jobs/netflix-data-scientist-l5-content-promotion-discovery-performance"
 ---

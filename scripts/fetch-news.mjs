@@ -16,7 +16,7 @@ const FEEDS = [
   { url: 'https://css-tricks.com/feed/', category: 'Tools', icon: '🎨' },
   { url: 'https://smashingmagazine.com/feed/', category: 'AI Design', icon: '🎨' },
   { url: 'https://uxdesign.cc/feed', category: 'AI Design', icon: '🎨' },
-  
+
   // Africa Tech
   { url: 'https://disruptafrica.com/feed/', category: 'Africa Tech', icon: '🌍' },
   { url: 'https://techpoint.africa/feed', category: 'Africa Tech', icon: '🌍' },
@@ -63,13 +63,25 @@ function formatDate(dateStr) {
   }
 }
 
-function createSlug(title, date) {
-  const dateSlug = (() => { try { return new Date(date).toISOString().split('T')[0]; } catch { return Date.now().toString(); } })();
-  return `${title}-${dateSlug}`
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    .substring(0, 80);
+// ✅ FIX: slug is based on the article URL — never changes between runs
+function createSlug(articleUrl) {
+  try {
+    const url = new URL(articleUrl);
+    // Use hostname + pathname — stable and unique per article
+    return (url.hostname + url.pathname)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .substring(0, 80);
+  } catch {
+    // Fallback: clean up raw URL string
+    return articleUrl
+      .toLowerCase()
+      .replace(/https?:\/\//g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .substring(0, 80);
+  }
 }
 
 function articleExists(slug) {
@@ -138,17 +150,17 @@ async function fetchNews() {
       for (const item of latest) {
         if (!isRelevant(item.title, item.description)) continue;
 
-        const slug = createSlug(item.title, item.pubDate);
+        // ✅ FIX: slug derived from article URL — same article always same slug
+        const slug = createSlug(item.link);
         if (articleExists(slug)) { skipped++; continue; }
 
         const date = formatDate(item.pubDate);
         const excerpt = (item.description.substring(0, 200) || 'Latest news from the design and tech ecosystem.').replace(/"/g, "'");
-
         const body = item.description && item.description.length > 100
-  ? item.description
-  : `This article covers the latest developments in ${feed.category}.`;
+          ? item.description
+          : `This article covers the latest developments in ${feed.category}.`;
 
-const content = `---
+        const content = `---
 title: "${item.title.replace(/"/g, "'")}"
 category: "${feed.category}"
 date: "${date}"

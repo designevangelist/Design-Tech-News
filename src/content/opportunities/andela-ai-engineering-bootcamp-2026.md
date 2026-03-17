@@ -3,6 +3,7 @@ title: "Andela AI Engineering Bootcamp 2026"
 type: "Fellowship"
 location: "Remote – Africa"
 deadline: "February 11, 2026"
+sponsored: true
 description: "A free, intensive AI engineering bootcamp by Andela designed to equip African developers with the skills to build and deploy AI-powered products."
 ---
 

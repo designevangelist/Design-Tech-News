@@ -3,6 +3,7 @@ title: "Mastercard Foundation EdTech Fellowship 2025"
 type: "Fellowship"
 location: "Nigeria, Kenya, Ghana, South Africa, Tanzania, Senegal"
 deadline: "Rolling – Check Partner Hub"
+sponsored: true
 description: "An entrepreneurship acceleration program supporting promising African EdTech ventures with business, financial, and technical support to prepare for scale."
 ---
 

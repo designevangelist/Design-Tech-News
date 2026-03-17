@@ -3,7 +3,7 @@ title: "Bilingual Sr Principal Consultant - Products ERP - NetSuite (Seeking Fre
 company: "Oracle"
 location: "Remote"
 jobType: "Product"
-
+sponsored: true
 
 link: "https://weworkremotely.com/remote-jobs/oracle-bilingual-sr-principal-consultant-products-erp-netsuite-seeking-french-and-or-mandarin"
 ---

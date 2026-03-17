@@ -3,7 +3,7 @@ title: "Director, Talent Acquisition"
 company: "Restaurant365"
 location: "Remote"
 jobType: "Product"
-
+sponsored: true
 
 link: "https://weworkremotely.com/remote-jobs/restaurant365-director-talent-acquisition"
 ---

@@ -76,10 +76,11 @@ const opportunities = await getCollection("opportunities");
       <div class="container">
         <div class="card-grid">
           {opportunities.map((post) => (
-            <article class="card">
-              <span class={`card-tag tag-${post.data.type.toLowerCase()}`}>
-                {post.data.type}
-              </span>
+            <article class:list={["card", { "is-sponsored": post.data.sponsored }]}>
+          {post.data.sponsored && <span class="sponsored-badge">Sponsored</span>}
+          <span class={`card-tag tag-${post.data.type.toLowerCase()}`}>
+            {post.data.type}
+          </span>
               <h3>{post.data.title}</h3>
               <div class="card-meta">
                 <span>🌍 {post.data.location}</span>
@@ -188,7 +189,7 @@ const opportunities = await getCollection("opportunities");
         <ul class="footer-links">
           <li><a href="/about">About Us</a></li>
           <li><a href="/about?submit=true">Submit Opportunity</a></li>
-          <li><a href="/about#advertise">Advertise</a></li>
+          <li><a href="/sponsor">Advertise</a></li>
           <li><a href="/about#contact">Contact</a></li>
         </ul>
       </div>

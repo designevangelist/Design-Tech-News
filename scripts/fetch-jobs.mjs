@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 
 // ===== JOB SOURCES =====
-// 1. Remotive API (multiple categories)
 const REMOTIVE_CATEGORIES = [
   'software-dev',
   'design',
@@ -13,7 +12,6 @@ const REMOTIVE_CATEGORIES = [
   'marketing',
 ];
 
-// 2. WeWorkRemotely RSS feeds
 const WWR_FEEDS = [
   { url: 'https://weworkremotely.com/categories/remote-programming-jobs.rss', type: 'Engineering' },
   { url: 'https://weworkremotely.com/categories/remote-design-jobs.rss', type: 'Design' },
@@ -53,12 +51,25 @@ function formatJobType(type) {
   return map[type?.toLowerCase()] || 'Full-time';
 }
 
-function createSlug(title, company, id) {
-  return `${title}-${company}-${id}`
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    .substring(0, 80);
+// ✅ FIX: slug is based on the job URL — never changes between runs
+function createSlug(jobUrl) {
+  try {
+    const url = new URL(jobUrl);
+    // Use the pathname only — stable, unique per listing
+    return url.pathname
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .substring(0, 80);
+  } catch {
+    // Fallback: hash-like slug from the raw URL string
+    return jobUrl
+      .toLowerCase()
+      .replace(/https?:\/\//g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .substring(0, 80);
+  }
 }
 
 function jobExists(slug) {
@@ -70,7 +81,6 @@ function isRelevant(title) {
   return KEYWORDS.some(kw => t.includes(kw));
 }
 
-// Parse WWR RSS XML
 function parseWWR(xml, jobType) {
   const items = [];
   const itemRegex = /<item>([\s\S]*?)<\/item>/g;
@@ -78,16 +88,12 @@ function parseWWR(xml, jobType) {
 
   while ((match = itemRegex.exec(xml)) !== null) {
     const item = match[1];
-    const title = item.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] || 
+    const title = item.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] ||
                   item.match(/<title>(.*?)<\/title>/)?.[1];
     const link = item.match(/<link>(.*?)<\/link>/)?.[1];
-    const company = item.match(/<company_name>(.*?)<\/company_name>/)?.[1] ||
-                    item.match(/<region><!\[CDATA\[(.*?)\]\]><\/region>/)?.[1] || '';
     const desc = item.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/)?.[1] || '';
-    const pubDate = item.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || '';
 
     if (title && link) {
-      // WWR title format is usually "Company: Job Title"
       const parts = title.split(':');
       const jobTitle = parts.length > 1 ? parts.slice(1).join(':').trim() : title.trim();
       const companyName = parts.length > 1 ? parts[0].trim() : 'Remote Company';
@@ -96,11 +102,11 @@ function parseWWR(xml, jobType) {
         title: jobTitle,
         company_name: companyName,
         url: link.trim(),
-        job_type: jobType,
+        job_type: 'full_time',
+        jobTypeLabel: jobType,
         candidate_required_location: 'Remote',
         salary: '',
         description: stripHtml(desc).substring(0, 500),
-        publication_date: pubDate,
       });
     }
   }
@@ -139,14 +145,7 @@ async function fetchJobs() {
       if (!res.ok) { console.log(`  ✗ ${feed.type}: HTTP ${res.status}`); continue; }
       const xml = await res.text();
       const items = parseWWR(xml, feed.type);
-      // Map to same format as Remotive
-      const mapped = items.slice(0, 8).map((j, i) => ({
-        ...j,
-        id: `wwr-${Date.now()}-${i}`,
-        job_type: 'full_time',
-        jobTypeLabel: feed.type,
-      }));
-      allJobs = allJobs.concat(mapped);
+      allJobs = allJobs.concat(items.slice(0, 8));
       console.log(`  ✓ ${feed.type}: ${items.length} jobs`);
     } catch (err) {
       console.log(`  ✗ ${feed.type}: ${err.message}`);
@@ -161,15 +160,18 @@ async function fetchJobs() {
   let skipped = 0;
 
   for (const job of filtered) {
-    const slug = createSlug(job.title, job.company_name, job.id);
+    // ✅ FIX: slug derived from the job URL — same job always gets same slug
+    const slug = createSlug(job.url);
     if (jobExists(slug)) { skipped++; continue; }
 
     const jobType = job.jobTypeLabel || formatJobType(job.job_type);
     const location = job.candidate_required_location || 'Remote';
     const salary = job.salary || '';
-const body = job.description ? stripHtml(job.description).substring(0, 5000) : `## About This Role\n\nThis is a ${jobType} position at ${job.company_name} based in ${location}.\n\n## How to Apply\n\nClick the Apply button to visit the company careers page for the full job description and to submit your application.`;
+    const body = job.description
+      ? stripHtml(job.description).substring(0, 5000)
+      : `## About This Role\n\nThis is a ${jobType} position at ${job.company_name} based in ${location}.\n\n## How to Apply\n\nClick the Apply button to visit the company careers page for the full job description and to submit your application.`;
 
-const content = `---
+    const content = `---
 title: "${job.title.replace(/"/g, "'")}"
 company: "${job.company_name.replace(/"/g, "'")}"
 location: "${location}"

@@ -164,7 +164,7 @@ const jobs = await getCollection("jobs");
 
     <div class="card-grid jobs-list">
       {jobs.map((job) => (
-        <article class="job-card-v" data-category={job.data.jobType?.toLowerCase()}>
+        <article class:list={["job-card-v", { "is-sponsored": job.data.sponsored }]} data-category={job.data.jobType?.toLowerCase()}>
   <div class="company-logo-wrap">
     {job.data.logo ? (
       <img src={job.data.logo} alt={job.data.company} class="company-logo-img" />
@@ -175,6 +175,7 @@ const jobs = await getCollection("jobs");
     )}
   </div>
   <div class="job-info">
+    {job.data.sponsored && <span class="sponsored-badge">Sponsored</span>}
     <h4 class="job-title-clamp">{job.data.title}</h4>
     <p class="company company-clamp">{job.data.company}</p>
     <div class="job-tags" style="margin: 8px 0;">
@@ -304,7 +305,7 @@ const jobs = await getCollection("jobs");
         <ul class="footer-links">
           <li><a href="/about">About Us</a></li>
           <li><a href="/about?submit=true">Submit Opportunity</a></li>
-          <li><a href="/about#advertise">Advertise</a></li>
+          <li><a href="/sponsor">Advertise</a></li>
           <li><a href="/about#contact">Contact</a></li>
         </ul>
       </div>

@@ -3,7 +3,7 @@ title: "Junior Web Developer"
 company: "Storyteller"
 location: "Remote"
 jobType: "Engineering"
-
+sponsored: true
 
 link: "https://weworkremotely.com/remote-jobs/storyteller-junior-web-developer"
 ---
