@@ -1,0 +1,17 @@
+---
+title: "Product Manager, AI Analytics &amp; Workflows"
+company: "Mpathic"
+location: "Remote"
+jobType: "Engineering"
+
+
+link: "https://weworkremotely.com/remote-jobs/mpathic-product-manager-ai-analytics-workflows"
+---
+
+## About This Role
+
+This is a Engineering position at Mpathic based in Remote.
+
+## How to Apply
+
+Click the Apply button to visit the company careers page for the full job description and to submit your application.
