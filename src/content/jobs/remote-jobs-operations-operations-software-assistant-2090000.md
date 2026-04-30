@@ -1,0 +1,11 @@
+---
+title: "Operations software assistant"
+company: "Bulldog Digital Media"
+location: "Europe, European timezones"
+jobType: "Contract"
+salary: "$12k - $19k (35 hrs/week, freelance)"
+logo: "https://remotive.com/job/2090000/logo"
+link: "https://remotive.com/remote-jobs/operations/operations-software-assistant-2090000"
+---
+
+Operations software assistant Bulldog is a UK agency helping marketing and SEO teams increase their visibility on Google and AI through link building and digital PR. We're a team of 12, with expertise in SEO, content, link building, and PR, based in the UK, Serbia, and North Macedonia. We are looking for a process-driven and intuitive person to work alongside our Operations Manager in overhauling our internal processes into a modern, streamlined way of working. We've already started implementing this as a proof of concept, with incredible results. We now need an extra pair of creative hands to move faster and help execute improvements. The role Help review processes and improvements in ways of working. Help build additional internal tools to improve delivery and efficiency. Use Claude AI to code, with clear operational thinking on what to build and why. Own tool maintenance, including fixes, improvements and updates. Monitor internal tools and portals to make sure they run smoothly. Keep the team updated on tool changes, updates and how things work. Work with the Operations Manager to find ways to save the company time on tasks. Take on a wide range of agency-improving tasks with the Operations Manager. Skills & experience Nice to have an understanding of link building, SEO and the AI ranking space. Intuitive thinking on how to improve processes so they can scale. Strong English and clear communication on project progress. Comfortable using Claude AI to code and create tools. Enjoys improving processes and is confident in independently owning projects. Working for Bulldog A friendly, passionate team that takes quality seriously. Join a talented team who work closely together every day. A flexible and remote-first work culture, enjoy your birthday off, fully paid. You'll be hired as a freelancer on 35 hours per week to start, with room to grow. You'll have a contract in place with notice periods, so you have security with us from the start.
