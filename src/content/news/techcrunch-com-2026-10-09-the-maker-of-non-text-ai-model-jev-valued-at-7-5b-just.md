@@ -1,0 +1,14 @@
+---
+title: "The maker of non-text AI model Jev valued at $7.5B just weeks after launch"
+category: "Startups"
+date: "Oct 9, 2026"
+excerpt: "What has users and large corporations so excited about Jev is TypeSafe’s claim that it works significantly faster and uses far fewer tokens than LLMs."
+icon: "🚀"
+link: "https://techcrunch.com/2026/10/09/the-maker-of-non-text-ai-model-jev-valued-at-7-5b-just-weeks-after-launch/"
+---
+
+What has users and large corporations so excited about Jev is TypeSafe’s claim that it works significantly faster and uses far fewer tokens than LLMs.
+
+## Read More
+
+[Read the full article](https://techcrunch.com/2026/10/09/the-maker-of-non-text-ai-model-jev-valued-at-7-5b-just-weeks-after-launch/)
