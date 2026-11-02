@@ -1,0 +1,14 @@
+---
+title: "2 days till TechCrunch Founder Summit: Boston founders don’t need a Silicon Valley address to build something big"
+category: "Startups"
+date: "Nov 2, 2026"
+excerpt: "TechCrunch Founder Summit happens on November 4 in Boston for a founder-focused agenda and impactful connections. Save up to $100 or get discounts with group passes."
+icon: "🚀"
+link: "https://techcrunch.com/2026/11/02/2-days-till-techcrunch-founder-summit-boston-founders-dont-need-a-silicon-valley-address-to-build-something-big/"
+---
+
+TechCrunch Founder Summit happens on November 4 in Boston for a founder-focused agenda and impactful connections. Save up to $100 or get discounts with group passes.
+
+## Read More
+
+[Read the full article](https://techcrunch.com/2026/11/02/2-days-till-techcrunch-founder-summit-boston-founders-dont-need-a-silicon-valley-address-to-build-something-big/)
