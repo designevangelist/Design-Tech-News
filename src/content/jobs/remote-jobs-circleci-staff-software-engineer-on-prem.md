@@ -1,0 +1,17 @@
+---
+title: "Staff Software Engineer, On-Prem"
+company: "CircleCI"
+location: "Remote"
+jobType: "Engineering"
+
+
+link: "https://weworkremotely.com/remote-jobs/circleci-staff-software-engineer-on-prem"
+---
+
+## About This Role
+
+This is a Engineering position at CircleCI based in Remote.
+
+## How to Apply
+
+Click the Apply button to visit the company careers page for the full job description and to submit your application.
