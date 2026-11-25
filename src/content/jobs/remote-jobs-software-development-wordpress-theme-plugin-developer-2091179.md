@@ -1,0 +1,11 @@
+---
+title: "WordPress Theme & Plugin Developer"
+company: "Steward Web Development"
+location: "Americas, LATAM, Canada, USA timezones"
+jobType: "Contract"
+salary: "$57K - $67K"
+logo: "https://remotive.com/job/2091179/logo"
+link: "https://remotive.com/remote-jobs/software-development/wordpress-theme-plugin-developer-2091179"
+---
+
+About the Role We're seeking a talented Fullstack WordPress Developer with strong expertise in custom theme and plugin development. You'll work on WordPress projects, including theme and plugin development, and potentially some Joomla projects (with appropriate support, depending on your familiarity). This is a contract role for full-time work over a 5 month contract. However, you'll work as if you were a full-time employee, participating in team meetings, communicating via Slack, and coordinating with other people on our team. Key Responsibilities Build custom WordPress themes that closely match designs with meticulous attention to detail Develop custom WordPress plugins with clean, well-structured code Take ownership of WordPress projects from concept to completion Refactor and update existing themes and templates Address other occasional full-stack developer tasks as needed for non-WordPress systems and situations (e.g. newsletter development) Provide limited support for clients who have issues or problems (secondary responsibility) Work Hours & Meetings You must be available to participate in meetings between 8:00 AM – 12:00 PM Los Angeles time (UTC-8) Your work hours will be negotiable. However, this is a full-time position, and the condition of this contract work is that you only work on our projects and on a full-time basis. Preference will be given to candidates that can closely align with our US timezone schedule. You have: At least 4 years of experience building custom WordPress themes and plugins Strong front-end development skills with an eye for detail Deep understanding of code organization, patterns, and OOP Strong English communication skills (written and verbal) The ability to work independently and complete objectives without explicit direction The ability to deliver polished work, self-review, and catch bugs before others do. This means that for any front-end development you do, it should be near pixel-perfect in alignment with the design you're working from.
